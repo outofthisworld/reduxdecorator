@@ -15,6 +15,8 @@ const array_append = (key) => (obj) =>
 const array_set = (key) => (obj) =>
     simple_reducer(key, (state, action) => {
         const newArr = obj(state,action);
+        console.log('New arr:')
+        console.log(newArr)
         if(!Array.isArray(newArr)){
             throw new Error('Redux_utils error: array_set must return an array');
         }
@@ -22,6 +24,8 @@ const array_set = (key) => (obj) =>
         if(newArr === state){
             throw new Error('Redux_utils error: original array was returned from array_set, please make sure you copy the state.')
         }
+        console.log('retruning:')
+        console.log(newArr)
         return newArr;
     });
    
@@ -134,8 +138,7 @@ const s = {
 store = createStore(redux_reducer(s));
 
 store.subscribe(function() {
-    console.log(store.getState())
-    console.log(store.getState().todoPortion.todos)
+ 
 })
 
 store.dispatch({
@@ -168,6 +171,80 @@ store.dispatch({
 store.dispatch({
     type: 'TOGGLE_STATE'
 })
+
+
+
+const assert = (other)=>{
+    if(!other){
+        throw new Error('Invalid test assertation');
+    }
+}
+
+/*
+    Some tests
+*/
+const testAddTodo = ()=>{
+    const appendTodo = s.todoPortion.todos[0];
+
+    const action = {
+        type:'ADD_TODO',
+        message:'Todo message'
+    }
+
+    const state = []
+
+    const newState = appendTodo(state,action);
+
+    assert(Array.isArray(newState));
+    assert(newState.length == 1);
+    assert(newState !== state);
+}
+
+const testArrSet = ()=>{
+    const reducer = array_set('key')(function(state,action){
+        return action.todos;
+    });
+
+    assert(typeof reducer === 'function');
+    
+    const out = reducer([],{
+        type:'key',
+        todos:[{id:1,message:'hi'}]
+    });
+
+    assert(Array.isArray(out));
+    assert(out.length == 1);
+    assert(out[0].id == 1);
+    assert(out[0].message==='hi');
+
+}
+
+const testSetTodos = ()=>{
+     const setTodos = s.todoPortion.todos[2];
+
+     const state = [
+         {id:1,message:'first todo'},
+         {id:2,message:'second todo'}
+     ]
+
+     const action = {
+        type:'SET_TODOS',
+        todos:[{id:1,message:'first todo modified'}]
+     }
+
+     const newState = setTodos(state,action);
+     assert(true,Array.isArray(newState));
+     console.log(newState)
+     assert(true,newState.length == 1);
+     //assert(false, newState === state);
+    // const message = newState[0];
+    // assert(true,message.id === 1);
+    // assert(true,message.message == 'first todo modified');
+}
+
+testAddTodo();
+testArrSet();
+//testSetTodos();
 
 
 
