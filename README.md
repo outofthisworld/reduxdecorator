@@ -119,9 +119,6 @@ This could have been modeled like this also:
     }
     export default createStore(state);
 ```
-
-## What's your point?
-
 This is a simpler alternative, far less code required. However, the problem is
 that it is brittle. Keys have to be manually added to the switch statement
 every time a new array is added to state. Another problem with this approach,
@@ -133,6 +130,46 @@ should be generic, easily usable in any circumstance for any type of data.
 Redux utils provides a set of functions to help creating reducers easy.
 It also provides an a function which operates on a object modeled by reducers
 making working with state alot easier.
+
+# Creating the state with redux utils
+Redux utils provides a set of useful set of utility methods (scroll down to see the list)
+which return reducers. The above can be modeled using redux utils doing this:
+```javascript
+    import { createStore } from 'redux';
+    import { array_append, create_reducer,default_state } from 'redux_utils';
+    const reducer_tree = {
+        todos:[
+            //Return the todo to be added
+            array_append('ADD_TODO')((state, action) =>{
+                return {
+                    id: state.length + 1,
+                    message: action.message
+                }
+            }),
+            default_state([])
+
+        ],
+        notes:[
+            //Return the note to be added
+            array_append('ADD_NOTE')((state, action) =>{
+                return {
+                    id: note.id,
+                    message: action.message
+                }
+            }),
+            default_state([])
+        ]
+    }
+    export default createStore(create_reducer(reducer_tree));
+```
+
+This may look a little different from what you are used to, however lets walk through the steps.
+
+- We import createStore from redux, this is what we use to create a redux store.
+- We import three functions from redux_utils array_append, create_reducer and default_state
+    - All three functions return reducers! No fancy magic.
+- We define our reducer tree, a reducer tree is a simple object mapping of object   properties to arrays of reducers which perform actions on that specific property.
+- create_reducer is where the magic happens
 
 ## Available utility functions
 Note that the first invocation of any utility function is always the key for the action.type.  
