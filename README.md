@@ -7,7 +7,7 @@ are performed on state.
 # How does redux utils help?
 
 Assume we have a simple todo application, and thus have to model a todos state.
-we might end up writing a reducer that looks like this:
+We might end up writing a reducer that looks like this:
 
 ```javascript
     import { createStore } from 'redux';
@@ -34,7 +34,7 @@ we might end up writing a reducer that looks like this:
     export default createStore(TodoReducer);
 ```
 
-This is fine for a simple application, but what if we have another list in our state we need to model? We refactor and may get something like this...:
+This is fine for a simple application, but what if we have another list in our state we need to model? We refactor and may get something like this:
 
 ```javascript
     import { createStore } from 'redux';
@@ -78,7 +78,7 @@ This is fine for a simple application, but what if we have another list in our s
 As you can see, both these things are effectively doing the same thing. Adding and removing
 an item from an array and ensuring that the original state is not modified (no side effects)
 
-We maybe could have even modeled this like so:
+This could have been modeled like this also:
 
 ```javascript
     import { createStore } from 'redux';
@@ -107,17 +107,21 @@ We maybe could have even modeled this like so:
     export default createStore(state);
 ```
 
+## What's your point?
+
 This is a simpler alternative, far less code required. However, the problem is
 that it is brittle. Keys have to be manually added to the switch statement
 every time a new array is added to state. Another problem with this approach,
 is that if slightly different functionality is required when adding todos or notes,
 this code breaks.
 
-So how do you solve the problem? by defining several utility functions which
-can be used to create generic reducers which operate on some given state.
+The examples above are trivial, but the highlight a key point in that reducers
+should be generic, easily usable in any circumstance for any type of data.
+Redux utils provides a set of functions to help creating reducers easy.
+It also provides an a function which operates on a object modeled by reducers
+making working with state alot easier.
 
-
-##Available utility functions
+## Available utility functions
 
 ### Utility functions operating on arrays:
 #### array_append
