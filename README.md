@@ -302,6 +302,7 @@ const state = {
     todoPortion: {
         todos: [
             //Return the new objet to add to the array
+            //state argument will refer to state.todoPortion.todos
             array_append('ADD_TODO')((state, action) =>{
                 return {
                     id: state.length + 1,
@@ -316,12 +317,11 @@ const state = {
             array_set('SET_TODOS')((state,action)=>[...action.todos]),
             //Sets the state to a new array automagically!
             array_remove_all('REMOVE_ALL_TODOS'),
-            //Remove one item
-            //array_filter('REMOVE_TODOS_MATCHING')((f)=> f.index != action.index),
-            //array_map('TRANSFORM_TODOS')((f)=> ({...f,newProp:1}))
+            //default value for todos key (already one todo!)
             default_state([{id:111,message:'some message'}])
         ],
         anotherComplexObj:{
+            //This will stay as 2
             val:2,
             anotherList:[
                 array_append('ADD_TO_ANOTHER_LIST')((state, action) =>{
@@ -331,25 +331,52 @@ const state = {
                         val:action.val
                     }
                 }),
-                default_state(40)
+                //default state for anotherList
+                default_state([])
             ]
         }
     },
     count: [
+        //Increment count (state) by action.amount
         number_transform('INCREMENT_COUNT')((state, action) =>  state + action.amount),
+        //Default for count will be 30
         default_state(30)
     ],
     toggleBool: [
-        //truthify('IS_ON'),
-        //falsify('IS_OFF'),
-        //boolean_false(),
-        //boolean_true(),
-        //boolean_set(),
+        //define a toggleBool to be toggleable
         boolean_toggle('TOGGLE_STATE'),
-        //set_bool('SWITCH')(action.toogleBool)
+        //Make it true to begin with
         default_state(true)
     ],
     //A constant value that cannot be changed
     someVal:1
 }
+
+const store = createStore(create_reducer(state));
+
+/*
+   Now some of the actions you can dispatch are, but not limited to:
+*/
+store.dispatch({
+    type:'ADD_TODO',
+    message:'my new todo item!'
+});
+store.dispatch({
+    type:'REMOVE_TODO',
+    //index of the todo to remove...
+    index:0
+});
+store.dispatch({
+    type:'SET_TODOS',
+    //Some new todoes to add...
+    todos:[{},{}]
+});
+store.dispatch({
+    type:'REMOVE_ALL_TODOS',
+});
+store.dispatch({
+    type:'INCREMENT_COUNT',
+    //increment count by 20.
+    amount:20
+});
 ```
