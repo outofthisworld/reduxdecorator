@@ -216,6 +216,21 @@ This may look a little different from what you are used to, however lets walk th
             someVar:1
         }
 ```
+3. How can I do more complex operations on an array, for instance remove certain items?
+Set array allows you to return a new array which will be set as the state. This means
+that you can use common map/filter/reduce functions on the current state and return a new array. Under the hood, array_set checks to make sure that the returned item is infact
+an array and that it is not the same as state to avoid issues by accidently modifying the array. Even if you do nothing with the state when using array_set, you should still return
+a new array.
+```javascript
+    //Remove the todo with action.index (trivial example, use array_remove_index)
+    array_set('SET_TODOS')((state,action)=> state.filter((todo)=> todo.id !== action.index))
+    //Return a new list of todos where each todo message has been transformed 
+    //to its uppercase variant.
+    array_set('TRANSFORM_TODOS')((state,action)=> state.map((todo)=>{
+        todo.message = todo.message.toUpperCase();
+        return todo;
+    }))
+```
 
 ## Available utility functions
 Note that the first argument for the first invocation of any utility function is always the key for the action.type.  
