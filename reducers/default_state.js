@@ -1,0 +1,1 @@
+module.exports =  default_state = (def) => (state=def,action)=> state;
