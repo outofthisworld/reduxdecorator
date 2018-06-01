@@ -1,1 +1,195 @@
-"use strict";var _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&"function"==typeof Symbol&&a.constructor===Symbol&&a!==Symbol.prototype?"symbol":typeof a};function _toConsumableArray(a){if(Array.isArray(a)){for(var b=0,c=Array(a.length);b<a.length;b++)c[b]=a[b];return c}return Array.from(a)}(function(a,b){"object"===("undefined"==typeof exports?"undefined":_typeof(exports))&&"undefined"!=typeof module?module.exports=b():"function"==typeof define&&define.amd?define(b):a.redux_utils=b()})(void 0,function(){"use strict";function a(){for(var a=arguments.length,b=Array(a),c=0;c<a;c++)b[c]=arguments[c];return function(a,c){return b.reduce(function(a,b){return"function"==typeof b?b(a,c):a},a)}}var b=function(a,b){return function(c){var d=1<arguments.length&&arguments[1]!==void 0?arguments[1]:{};switch(d.type){case a:c=b(c,d);}return c}},c=Object.freeze({number_transform:function(a){return function(c){return b(a,function(a,b){return c(a,b)})}}}),d=Object.freeze({array_append:function(a){return function(c){return b(a,function(a,b){return[].concat(_toConsumableArray(a),[c(a,b)])})}},array_remove_all:function(a){return b(a,function(){return[]})},array_reove_index:function(a){return function(c){return b(a,function(a,b){var d=[].concat(_toConsumableArray(a)),e=c(a,b);if(!Number.isInteger(e)||0>e||e>=d.length)throw new Error("Redux_utils error: invalid index returned");return d.splice(e,1),d})}},array_set:function(a){return function(c){return b(a,function(a,b){var d=c(a,b);if(!Array.isArray(d))throw new Error("Redux_utils error: array_set must return an array");if(d===a)throw new Error("Redux_utils error: original array was returned from array_set, please make sure you copy the state.");return d})}}}),e=Object.freeze({boolean_set:function(a){return function(c){return b(a,c)}},boolean_toggle:function(a){return b(a,function(a){return!a})}}),f=d.array_append,g=d.array_remove_all,h=d.array_remove_index,i=d.array_set,j=e.boolean_set,k=e.boolean_toggle,l=c.number_transform,m=Object.freeze({default_state:function(a){return function(){var b=0<arguments.length&&arguments[0]!==void 0?arguments[0]:a,c=arguments[1];return b}},simple_reducer:b,array_append:f,array_remove_all:g,array_remove_index:h,array_set:i,boolean_set:j,boolean_toggle:k,number_transform:l}),n=Object.assign({},m,{create_reducer:function(a){function b(){return a.apply(this,arguments)}return b.toString=function(){return a.toString()},b}(function(b){return function(){var c=0<arguments.length&&arguments[0]!==void 0?arguments[0]:{},d=arguments[1],e=function(a){return a===Object(a)&&"[object Array]"!==Object.prototype.toString.call(a)};if(!b||!e(b))throw new Error("Invalid tree");for(key in b){var f=b[key];if(e(f))c[key]=c[key]||{},create_reducer(f)(c[key],d);else if(Array.isArray(f)){var g=a.apply(null,f);c[key]=g(c[key],d)}else c[key]=f}return c}}),combine:a}),o=Object.freeze(n);return o});
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+(function (global, factory) {
+    (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.redux_utils = factory();
+})(undefined, function () {
+    'use strict';
+
+    function combine() {
+        for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+            funcs[_key] = arguments[_key];
+        }
+
+        return function (state, action) {
+            return funcs.reduce(function (prev, cur) {
+                if (typeof cur === 'function') {
+                    return cur(prev, action);
+                } else {
+                    return prev;
+                }
+            }, state);
+        };
+    }
+
+    var simple_reducer = function simple_reducer(key, callback) {
+        return function (state) {
+            var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+            switch (action.type) {
+                case key:
+                    state = callback(state, action);
+            }
+            return state;
+        };
+    };
+
+    var number_transform = function number_transform(key) {
+        return function (func) {
+            return simple_reducer(key, function (state, action) {
+                return func(state, action);
+            });
+        };
+    };
+
+    var number_reducers = /*#__PURE__*/Object.freeze({
+        number_transform: number_transform
+    });
+
+    var array_append = function array_append(key) {
+        return function (obj) {
+            return simple_reducer(key, function (state, action) {
+                return [].concat(_toConsumableArray(state), [obj(state, action)]);
+            });
+        };
+    };
+
+    var array_remove_all = function array_remove_all(key) {
+        return simple_reducer(key, function () {
+            return [];
+        });
+    };
+
+    var array_remove_index = function array_remove_index(key) {
+        return function (index) {
+            return simple_reducer(key, function (state, action) {
+                var copy = [].concat(_toConsumableArray(state));
+                var ind = index(state, action);
+
+                if (!Number.isInteger(ind) || ind < 0 || ind >= copy.length) {
+                    throw new Error('Redux_utils error: invalid index returned');
+                }
+                copy.splice(ind, 1);
+                return copy;
+            });
+        };
+    };
+
+    var array_set = function array_set(key) {
+        return function (obj) {
+            return simple_reducer(key, function (state, action) {
+                var newArr = obj(state, action);
+                if (!Array.isArray(newArr)) {
+                    throw new Error('Redux_utils error: array_set must return an array');
+                }
+                //The user modified the original array state
+                if (newArr === state) {
+                    throw new Error('Redux_utils error: original array was returned from array_set, please make sure you copy the state.');
+                }
+                return newArr;
+            });
+        };
+    };
+
+    var array_reducers = /*#__PURE__*/Object.freeze({
+        array_append: array_append,
+        array_remove_all: array_remove_all,
+        array_reove_index: array_remove_index,
+        array_set: array_set
+    });
+
+    var boolean_set = function boolean_set(key) {
+        return function (func) {
+            return simple_reducer(key, func);
+        };
+    };
+
+    var boolean_toggle = function boolean_toggle(key) {
+        return simple_reducer(key, function (state, action) {
+            return !state;
+        });
+    };
+
+    var boolean_reducers = /*#__PURE__*/Object.freeze({
+        boolean_set: boolean_set,
+        boolean_toggle: boolean_toggle
+    });
+
+    var def_state = function def_state(def) {
+        return function () {
+            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : def;
+            var action = arguments[1];
+            return state;
+        };
+    };
+
+    var default_state = def_state;
+    var simple_reducer$1 = simple_reducer;
+    var array_append$1 = array_reducers.array_append,
+        array_remove_all$1 = array_reducers.array_remove_all,
+        array_remove_index$1 = array_reducers.array_remove_index,
+        array_set$1 = array_reducers.array_set;
+    var boolean_set$1 = boolean_reducers.boolean_set,
+        boolean_toggle$1 = boolean_reducers.boolean_toggle;
+    var number_transform$1 = number_reducers.number_transform;
+
+
+    var reducers = /*#__PURE__*/Object.freeze({
+        default_state: default_state,
+        simple_reducer: simple_reducer$1,
+        array_append: array_append$1,
+        array_remove_all: array_remove_all$1,
+        array_remove_index: array_remove_index$1,
+        array_set: array_set$1,
+        boolean_set: boolean_set$1,
+        boolean_toggle: boolean_toggle$1,
+        number_transform: number_transform$1
+    });
+
+    var exportObj = Object.assign({}, reducers, {
+        create_reducer: function (_create_reducer) {
+            function create_reducer(_x3) {
+                return _create_reducer.apply(this, arguments);
+            }
+
+            create_reducer.toString = function () {
+                return _create_reducer.toString();
+            };
+
+            return create_reducer;
+        }(function (tree) {
+            return function () {
+                var prevState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                var action = arguments[1];
+
+                var isObject = function isObject(obj) {
+                    return obj === Object(obj) && Object.prototype.toString.call(obj) !== '[object Array]';
+                };
+
+                if (!tree || !isObject(tree)) {
+                    throw new Error('Invalid tree');
+                }
+                for (key in tree) {
+                    var val = tree[key];
+                    if (isObject(val)) {
+                        prevState[key] = prevState[key] || {};
+                        create_reducer(val)(prevState[key], action);
+                    } else if (Array.isArray(val)) {
+                        var reducer = combine.apply(null, val);
+                        prevState[key] = reducer(prevState[key], action);
+                    } else {
+                        prevState[key] = val;
+                    }
+                }
+                return prevState;
+            };
+        }),
+        combine: combine
+    });
+    var main = Object.freeze(exportObj);
+
+    return main;
+});

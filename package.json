@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rollup -c && babel index.js --out-file index.js && minify index.js -d minified && mv minified/index.js redux_utils.js ",
+    "rollup":"rollup -c && babel index.js --out-file index.js",
+    "minify":"minify index.js -d minified",
+    "rename_min":"mv minified/index.js minified/redux_utils.js",
+    "copy_babel_output":"cp index.js redux_utils.js",
+    "copy_minified":"mv minified/redux_utils.js redux_utils.min.js",
+    "build": "npm run rollup && npm run minify && npm run rename_min && npm run copy_babel_output && npm run copy_minified",
     "inttest": "node tests",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

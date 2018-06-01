@@ -1,5 +1,5 @@
 export default {
-  input: 'redux_utils.js',
+  input: 'main.js',
   output: {
     file: 'index.js',
     name:'redux_utils',

@@ -2,7 +2,20 @@
 # Redux utils
 Redux utils is a simple utility library to make it easier for working with redux,
 and reduces the need to create unecessary duplicate code for trivial tasks that
-are performed on state.
+are performed on state. It is defined as a single UMD module and can be viewed
+in index.js. It has been bundled/combined with rollup and transpiled with babel to produce the final output and thus should work on the majority of browsers out there.
+
+# Installation
+## via npm
+    ```bash
+        npm install redux_utils --save
+    ```
+## in browser environments
+[Minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.min.js)
+[Non-minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.js)
+### CDN
+    ####todo
+    
 
 # How does redux utils help?
 

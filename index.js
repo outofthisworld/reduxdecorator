@@ -189,7 +189,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         }),
         combine: combine
     });
-    var redux_utils = Object.freeze(exportObj);
+    var main = Object.freeze(exportObj);
 
-    return redux_utils;
+    return main;
 });
