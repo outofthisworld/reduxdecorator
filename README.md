@@ -141,13 +141,15 @@ Note that the first invocation of any utility function is always the key for the
 
        /* What is returned? */
        const reducer = (state,action)=>{
-           case 'ADD_TODO':
-                //(Available from within closure)
-                const itemToAdd = callback(state,action);
-                const newState = [...state,itemToAdd];
-                return newState;
-            default:
-                return state;
+           switch(action.type){
+                case 'ADD_TODO':
+                        //(Available from within closure)
+                        const itemToAdd = callback(state,action);
+                        const newState = [...state,itemToAdd];
+                        return newState;
+                    default:
+                        return state;
+           }
        }
        
 ```
