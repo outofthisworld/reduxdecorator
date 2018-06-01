@@ -169,7 +169,51 @@ This may look a little different from what you are used to, however lets walk th
 - We import three functions from redux_utils array_append, create_reducer and default_state
     - All three functions return reducers! No fancy magic.
 - We define our reducer tree, a reducer tree is a simple object mapping of object   properties to arrays of reducers which perform actions on that specific property.
-- create_reducer is where the magic happens
+- create_reducer is where the magic happens. It will combine the reducers specified
+  for a certain property in the reducer tree, and call each one in the order they were defined.
+
+#### You may have some question related to the previous code:
+1. What does default_state([]) do?
+   Default state is used to define the data type of the object property/key.
+   Above, it specifies todos and notes as both being arrays.
+   Internally, it returns a reducer:
+   ```javascript
+        const default_state = (defaultState) => (state=defaultState,action)=> state;
+   ```
+   If state is undefined, state will be set to defaultState and the state returned.
+   As such this is used for when redux calls reducers with an undefined state to obtain their initial state. Any time an object key is specified as an array of reducers
+   (which is most of the time), default_state should be provided in order to determine
+   the keys initial state.
+2. What about more complex state ?
+    Most usecases should be handled the following is an example of a more complex
+    object:
+```javascript 
+        const state = {
+            todoPortion:{
+                todos:[
+                    default_state([])
+                ],
+                someOtherPortion:{
+                    anotherList:[
+                        default_state([])
+                    ]
+                }
+            },
+            someVar:1
+        }
+```
+    Your initial redux store state will thus be:
+```javascript 
+        const state = {
+            todoPortion:{
+                todos:[],
+                someOtherPortion:{
+                    anotherList:[]
+                }
+            },
+            someVar:1
+        }
+```
 
 ## Available utility functions
 Note that the first invocation of any utility function is always the key for the action.type.  
