@@ -1,3 +1,3 @@
-const simple_reducer = require('../simple_reducer');
+import simple_reducer from '../simple_reducer';
 
-module.exports = boolean_set = (key) => (func) => simple_reducer(key,func);
+export default (key) => (func) => simple_reducer(key,func);

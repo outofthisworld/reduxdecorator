@@ -2,13 +2,19 @@
   "name": "redux_utils",
   "version": "1.0.0",
   "description": "",
-  "main": "redux_utils.js",
+  "main": "index.js",
   "scripts": {
+    "build": "rollup -c && babel index.js --out-file index.js",
+    "inttest": "node tests",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "redux": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
   }
 }

@@ -1,4 +1,4 @@
-module.exports = function combine(...funcs) {
+export default function combine(...funcs) {
     return function (state, action) {
         return funcs.reduce(function (prev, cur) {
             if (typeof cur === 'function') {

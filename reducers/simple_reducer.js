@@ -1,4 +1,4 @@
-const simple_reducer = (key, callback) => {
+export default (key, callback) => {
     return function (state, action = {}) {
         switch (action.type) {
             case key:
@@ -7,5 +7,3 @@ const simple_reducer = (key, callback) => {
         return state;
     }
 }
-
-module.exports = simple_reducer;

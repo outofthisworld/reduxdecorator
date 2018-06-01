@@ -1,7 +1,2 @@
-const boolean_set = require('./boolean_set');
-const boolean_toggle = require('./boolean_toggle');
-
-module.exports = {
-    boolean_set,
-    boolean_toggle
-}
+export { default as boolean_set } from './boolean_set';
+export { default as boolean_toggle} from './boolean_toggle';

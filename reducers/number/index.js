@@ -1,5 +1,1 @@
-const number_transform = require('./number_transform');
-
-module.exports = {
-    number_transform
-}
+export { default as number_transform } from './number_transform';

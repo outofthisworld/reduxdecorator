@@ -1,4 +1,3 @@
-const simple_reducer = require('../simple_reducer');
-
-module.exports = array_append = (key) => (obj) =>
+import simple_reducer from '../simple_reducer';
+export default (key) => (obj) =>
     simple_reducer(key,(state, action) => [...state, obj(state, action)]);

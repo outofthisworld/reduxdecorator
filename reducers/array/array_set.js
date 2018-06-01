@@ -1,6 +1,6 @@
-const simple_reducer = require('../simple_reducer');
+import simple_reducer from '../simple_reducer';
 
-module.exports = array_set = (key) => (obj) => simple_reducer(key, (state, action) => {
+export default (key) => (obj) => simple_reducer(key, (state, action) => {
         const newArr = obj(state,action);
         if(!Array.isArray(newArr)){
             throw new Error('Redux_utils error: array_set must return an array');

@@ -1,27 +1,7 @@
 const { createStore } = require('redux');
-const {
-    //Appends an array item
-    array_append,
-    //Removes all array items
-    array_remove_all,
-    //Removes the array item at the returned index
-    array_remove_index,
-    //Sets the array to the specified array
-    array_set,
-    //Set boolean to specified value
-    boolean_set,
-    //Toggles boolean to specified value
-    boolean_toggle,
-    //Transforms number to specified value
-    number_transform,
-    //Returns state, overrides if undefined.
-    default_state,
-    //Creates a reducer with one switch case using the given key
-    simple_reducer,
-    //Creates a final reducer from a given object
-    create_reducer
-} = require('./index');
+const bundle = require('./index');
 
+console.log(bundle)
 
 /*
 let store;

@@ -1,3 +1,3 @@
-const simple_reducer = require('../simple_reducer');
+import simple_reducer from '../simple_reducer';
 
-module.exports = array_remove_all = (key) => simple_reducer(key, () => []);
+export default (key) => simple_reducer(key, () => []);

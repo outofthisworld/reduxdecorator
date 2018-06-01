@@ -1,3 +1,3 @@
-const simple_reducer = require('../simple_reducer');
+import simple_reducer from '../simple_reducer';
 
-module.exports = number_transform = (key) => (func) => simple_reducer(key, (state, action) => func(state, action));
+export default (key) => (func) => simple_reducer(key, (state, action) => func(state, action));

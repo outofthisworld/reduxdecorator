@@ -1,3 +1,3 @@
-const simple_reducer = require('../simple_reducer');
+import simple_reducer from '../simple_reducer';
 
-module.exports = boolean_toggle = (key) => simple_reducer(key,(state,action)=>!state)
+export default (key) => simple_reducer(key,(state,action)=>!state)

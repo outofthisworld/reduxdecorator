@@ -1,6 +1,6 @@
-const simple_reducer = require('../simple_reducer');
+import simple_reducer from '../simple_reducer';
 
-module.exports = array_remove_index = (key) => (index) => simple_reducer(key, (state, action) => {
+export default (key) => (index) => simple_reducer(key, (state, action) => {
         const copy = [...state];
         const ind = index(state, action);
     
