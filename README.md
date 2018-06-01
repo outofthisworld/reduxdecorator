@@ -1,10 +1,10 @@
 
-#Redux utils
+# Redux utils
 Redux utils is a simple utility library to make it easier for working with redux,
 and reduces the need to create unecessary duplicate code for trivial tasks that
 are performed on state.
 
-#How does redux utils help?
+# How does redux utils help?
 
 Assume we have a simple todo application, and thus have to model a todos state.
 we might end up writing a reducer that looks like this:
@@ -117,20 +117,20 @@ So how do you solve the problem? by defining several utility functions which
 can be used to create generic reducers which operate on some given state.
 
 
-#Available utility functions
+##Available utility functions
 
-## Utility functions operating on arrays:
-### array_append
-### array_remove_index
-### array_set
-### array_remove_all
+### Utility functions operating on arrays:
+#### array_append
+#### array_remove_index
+#### array_set
+#### array_remove_all
 
-## Utility functions operating on booleans:
-### boolean_toggle
-### boolean_set
+### Utility functions operating on booleans:
+#### boolean_toggle
+#### boolean_set
 
-## Utility functions operating on numbers:
-## number_transform
+### Utility functions operating on numbers:
+#### number_transform
 
 
 #Defining a state tree
