@@ -179,13 +179,15 @@ This may look a little different from what you are used to, however lets walk th
    Default state is used to define the data type of the object property/key.
    Above, it specifies todos and notes as both being arrays.
    Internally, it returns a reducer:
-   ```javascript
-        const default_state = (defaultState) => (state=defaultState,action)=> state;
-   ```
+```javascript
+    const default_state = (defaultState) => (state=defaultState,action)=> state;
+```
+
    If state is undefined, state will be set to defaultState and the state returned.
    As such this is used for when redux calls reducers with an undefined state to obtain their initial state. Any time an object key is specified as an array of reducers
    (which is most of the time), default_state should be provided in order to determine
    the keys initial state.
+
 ---
 2. What about more complex state ?
 ---
