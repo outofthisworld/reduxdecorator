@@ -174,6 +174,7 @@ This may look a little different from what you are used to, however lets walk th
 
 #### You may have some question related to the previous code:
 1. What does default_state([]) do?
+---
    Default state is used to define the data type of the object property/key.
    Above, it specifies todos and notes as both being arrays.
    Internally, it returns a reducer:
@@ -185,6 +186,7 @@ This may look a little different from what you are used to, however lets walk th
    (which is most of the time), default_state should be provided in order to determine
    the keys initial state.
 2. What about more complex state ?
+***
     Most usecases should be handled the following is an example of a more complex
     object:
 ```javascript 
@@ -216,38 +218,48 @@ This may look a little different from what you are used to, however lets walk th
 ```
 
 ## Available utility functions
-Note that the first invocation of any utility function is always the key for the action.type.  
+Note that the first argument for the first invocation of any utility function is always the key for the action.type.  
 
 ### Utility functions operating on arrays:
 #### array_append
 ```javascript
        /*
-          array_append returns a function which takes a callback
+          array_append: adds a new item to an array.
+          
+          returns a function which takes a callback
           which takes the current state and action, and should
           return the new item to be added to the list.
        */
        array_append('ADD_TODO')((state, action) =>{
-                return {
-                    id: state.length + 1,
-                    message: action.message
-                }
+            //Return the todo to be added
+            return {
+                id: state.length + 1,
+                message: action.message
+            }
        })
 
        /* What is returned? */
        const reducer = (state,action)=>{
            switch(action.type){
                 case 'ADD_TODO':
-                        //(Available from within closure)
-                        const itemToAdd = callback(state,action);
-                        const newState = [...state,itemToAdd];
-                        return newState;
-                    default:
-                        return state;
+                    //(Available from within closure)
+                    const itemToAdd = callback(state,action);
+                    const newState = [...state,itemToAdd];
+                    return newState;
+                default:
+                    return state;
            }
        }
        
 ```
 #### array_remove_index
+```javascript
+     //Return the index in the array to remove
+     array_remove_index('REMOVE_TODO')(function(state, action){
+        console.log('returning index')
+        return action.index
+     })
+```
 #### array_set
 #### array_remove_all
 
