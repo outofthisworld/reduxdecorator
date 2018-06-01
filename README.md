@@ -122,9 +122,35 @@ It also provides an a function which operates on a object modeled by reducers
 making working with state alot easier.
 
 ## Available utility functions
+Note that the first invocation of any utility function is always the key for the action.type.  
 
 ### Utility functions operating on arrays:
 #### array_append
+```javascript
+       /*
+          array_append returns a function which takes a callback
+          which takes the current state and action, and should
+          return the new item to be added to the list.
+       */
+       array_append('ADD_TODO')((state, action) =>{
+                return {
+                    id: state.length + 1,
+                    message: action.message
+                }
+       })
+
+       /* What is returned? */
+       const reducer = (state,action)=>{
+           case 'ADD_TODO':
+                //(Available from within closure)
+                const itemToAdd = callback(state,action);
+                const newState = [...state,itemToAdd];
+                return newState;
+            default:
+                return state;
+       }
+       
+```
 #### array_remove_index
 #### array_set
 #### array_remove_all
@@ -137,7 +163,7 @@ making working with state alot easier.
 #### number_transform
 
 
-#Defining a state tree
+# Defining a state tree
 ```javascript 
 let store;
 const state = {
