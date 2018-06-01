@@ -133,7 +133,7 @@ making working with state alot easier.
 
 # Creating the state with redux utils
 Redux utils provides a set of useful set of utility methods (scroll down to see the list)
-which return reducers. The above can be modeled using redux utils doing this:
+which return reducers. The above can be modeled using redux_utils:
 ```javascript
     import { createStore } from 'redux';
     import { array_append, create_reducer,default_state } from 'redux_utils';
@@ -187,7 +187,7 @@ This may look a little different from what you are used to, however lets walk th
    the keys initial state.
 2. What about more complex state ?
 ***
-    Most usecases should be handled the following is an example of a more complex
+    Most usecases should be handled. The following is an example of a more complex
     object:
 ```javascript 
         const state = {
@@ -204,7 +204,7 @@ This may look a little different from what you are used to, however lets walk th
             someVar:1
         }
 ```
-    Your initial redux store state will thus be:
+    Your initial redux store state with using the above reducer tree will be:
 ```javascript 
         const state = {
             todoPortion:{
@@ -261,17 +261,41 @@ Note that the first argument for the first invocation of any utility function is
      })
 ```
 #### array_set
+```javascript
+    //Set the array to the returned array
+    array_set('SET_TODOS')((state,action)=>[...action.todos])
+```
 #### array_remove_all
+```javascript
+    //Remove all items from an array
+    array_remove_all('REMOVE_ALL_TODOS')
+```
 
 ### Utility functions operating on booleans:
 #### boolean_toggle
+```javascript
+    //Toggle a boolean "On" or "Off"
+    boolean_toggle('TOGGLE_STATE')
+```
 #### boolean_set
+```javascript
+    //Set boolean to return value
+    boolean_set('SET')((state,action)=> false);
+```
 
 ### Utility functions operating on numbers:
 #### number_transform
+```javascript
+    //Transform a number, return the new number.
+    number_transform('INCREMENT_COUNT')((state, action) =>  state + action.amount)
+```
 
 
-# Defining a state tree
+# Putting everything together
+Below is a decent example of how you might define a reducer tree.
+You make like to define different parts of your reducer
+tree in seperate files if the state becomes large to help with readability
+however this covers the concepts.
 ```javascript 
 let store;
 const state = {
@@ -279,7 +303,6 @@ const state = {
         todos: [
             //Return the new objet to add to the array
             array_append('ADD_TODO')((state, action) =>{
-                console.log('adding item')
                 return {
                     id: state.length + 1,
                     message: action.message
@@ -287,7 +310,6 @@ const state = {
             }),
             //Return the index to remove
             array_remove_index('REMOVE_TODO')(function(state, action){
-                console.log('returning index')
                 return action.index
             }),
             //Return the new array to set the current array to.
