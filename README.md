@@ -185,6 +185,7 @@ This may look a little different from what you are used to, however lets walk th
    As such this is used for when redux calls reducers with an undefined state to obtain their initial state. Any time an object key is specified as an array of reducers
    (which is most of the time), default_state should be provided in order to determine
    the keys initial state.
+---
 2. What about more complex state ?
 ***
     Most usecases should be handled. The following is an example of a more complex
@@ -216,6 +217,7 @@ This may look a little different from what you are used to, however lets walk th
             someVar:1
         }
 ```
+---
 3. How can I do more complex operations on an array, for instance remove certain items?
 ***
 Set array allows you to return a new array which will be set as the state. This means
@@ -232,6 +234,7 @@ a new array.
         return todo;
     }))
 ```
+---
 
 ## Available utility functions
 Note that the first argument for the first invocation of any utility function is always the key for the action.type.  
