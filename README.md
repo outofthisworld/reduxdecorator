@@ -7,9 +7,9 @@ in index.js. It has been bundled/combined with rollup and transpiled with babel 
 
 # Installation
 ## via npm
-    ```bash
-        npm install redux_utils --save
-    ```
+```bash
+    npm install redux_utils --save
+```
 ## in browser environments
 [Minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.min.js)
 [Non-minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.js)
