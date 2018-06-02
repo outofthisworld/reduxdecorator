@@ -267,6 +267,7 @@ This can easily be accomplished by specifying your own reducer:
 ```
 ---
 5. Why is append prefixed with array_ ?
+---
 All utility functions are prefixed by the types that they operate on. This include number,boolean and arrays. For example `array_prepend`, `number_transform`, `boolean_set`. You may wonder why this is, and its simply because it makes it easier to think about the type of data that you're working on and it also is easier to find errors in you code. For example assume the following code:
 
 ```javascript
