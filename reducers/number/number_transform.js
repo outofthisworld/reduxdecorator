@@ -1,3 +1,4 @@
-import simple_reducer from '../simple_reducer';
+import simple_reducer from "../simple_reducer";
 
-export default (key) => (func) => simple_reducer(key, (state, action) => func(state, action));
+export default key => func =>
+  simple_reducer(key, (state, action) => func(state, action));

@@ -1,1 +1,1 @@
-export default (def) => (state=def,action)=> state;
+export default def => (state = def, action) => state;
