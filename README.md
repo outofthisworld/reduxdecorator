@@ -255,7 +255,7 @@ This can easily be accomplished by specifying your own reducer:
                 }
             }),
             //Specify our own reducer, which takes the current state
-            //and returns a new array with a new todo object prepending to the begging.
+            //and returns a new array with a new todo object prepended to the begging.
             (state,action)=> [{id:state.length+1,message:action.message},...state],
             default_state([])
 

@@ -5,7 +5,7 @@ console.log(bundle)
 
 /*
 let store;
-const s = {
+const state = {
     todoPortion: {
         todos: [
             //Return the new objet to add to the array

@@ -45,14 +45,36 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         };
     };
 
+    var number_increment = function number_increment(key) {
+        return simple_reducer(key, function (state, action) {
+            return state + 1;
+        });
+    };
+
+    var number_decrement = function number_decrement(key) {
+        return simple_reducer(key, function (state, action) {
+            return state - 1;
+        });
+    };
+
     var number_reducers = /*#__PURE__*/Object.freeze({
-        number_transform: number_transform
+        number_transform: number_transform,
+        number_increment: number_increment,
+        number_decrement: number_decrement
     });
 
     var array_append = function array_append(key) {
         return function (obj) {
             return simple_reducer(key, function (state, action) {
                 return [].concat(_toConsumableArray(state), [obj(state, action)]);
+            });
+        };
+    };
+
+    var array_prepend = function array_prepend(key) {
+        return function (obj) {
+            return simple_reducer(key, function (state, action) {
+                return [obj(state, action)].concat(_toConsumableArray(state));
             });
         };
     };
@@ -96,6 +118,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
     var array_reducers = /*#__PURE__*/Object.freeze({
         array_append: array_append,
+        array_prepend: array_prepend,
         array_remove_all: array_remove_all,
         array_reove_index: array_remove_index,
         array_set: array_set
@@ -129,24 +152,30 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     var default_state = def_state;
     var simple_reducer$1 = simple_reducer;
     var array_append$1 = array_reducers.array_append,
+        array_prepend$1 = array_reducers.array_prepend,
         array_remove_all$1 = array_reducers.array_remove_all,
         array_remove_index$1 = array_reducers.array_remove_index,
         array_set$1 = array_reducers.array_set;
     var boolean_set$1 = boolean_reducers.boolean_set,
         boolean_toggle$1 = boolean_reducers.boolean_toggle;
-    var number_transform$1 = number_reducers.number_transform;
+    var number_transform$1 = number_reducers.number_transform,
+        number_increment$1 = number_reducers.number_increment,
+        number_decrement$1 = number_reducers.number_decrement;
 
 
     var reducers = /*#__PURE__*/Object.freeze({
         default_state: default_state,
         simple_reducer: simple_reducer$1,
         array_append: array_append$1,
+        array_prepend: array_prepend$1,
         array_remove_all: array_remove_all$1,
         array_remove_index: array_remove_index$1,
         array_set: array_set$1,
         boolean_set: boolean_set$1,
         boolean_toggle: boolean_toggle$1,
-        number_transform: number_transform$1
+        number_transform: number_transform$1,
+        number_increment: number_increment$1,
+        number_decrement: number_decrement$1
     });
 
     var exportObj = Object.assign({}, reducers, {
