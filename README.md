@@ -5,6 +5,9 @@ and reduces the need to create unecessary duplicate code for trivial tasks that
 are performed on state. It is defined as a single UMD module and can be viewed
 in index.js. It has been bundled/combined with rollup and transpiled with babel to produce the final output and thus should work on the majority of browsers out there.
 
+#Size
+Minified version of redux utils currently sits at 2.98kb which is tiny ! :)
+
 # Installation
 ## via npm
 ```bash
