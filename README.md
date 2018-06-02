@@ -156,8 +156,8 @@ which return reducers. The above can be modeled using redux_utils:
             //Return the note to be added
             array_append('ADD_NOTE')((state, action) =>{
                 return {
-                    id: note.id,
-                    message: action.message
+                    id: state.id,
+                    message: action.noteMessage
                 }
             }),
             default_state([])
@@ -245,6 +245,7 @@ a new array.
 ```
 ---
 4. What if I can't find a utility function that fits my needs?
+---
 Lets assume there isn't a utility function for prepending an item to an array.
 And we wanted to be able to insert todo objects to the begging of the todos array.
 This can easily be accomplished by specifying your own reducer:
@@ -264,6 +265,29 @@ This can easily be accomplished by specifying your own reducer:
 
         ]
 ```
+---
+5. Why is append prefixed with array_ ?
+All utility functions are prefixed by the types that they operate on. This include number,boolean and arrays. For example `array_prepend`, `number_transform`, `boolean_set`. You may wonder why this is, and its simply because it makes it easier to think about the type of data that you're working on and it also is easier to find errors in you code. For example assume the following code:
+
+```javascript
+    const reducer_tree = {
+        todos:[
+            append()
+            set()
+            state([])
+        ]
+    }
+```
+When looking at this code, it may not be apparent that there is an error.
+We have called `set()` which refers to `boolean_set`(with the prefix removed)
+within a data type that has a default state of array type. `boolean_set` only works
+with booleans, so this is not allowed. However, glancing at the code without the prefix
+makes this harder to spot and thus leads to more confusion down the line. If you don't like
+the names though that is easy to fix, simply import them as different names!
+```javacript
+    import { array_append as append } from 'redux_utils';
+```
+---
 
 ## Available utility functions
 Note that the first argument for the first invocation of any utility function is always the key for the action.type.  
