@@ -169,6 +169,9 @@ This may look a little different from what you are used to, however lets walk th
 - We import three functions from redux_utils array_append, create_reducer and default_state
     - All three functions return reducers! No fancy magic.
 - We define our reducer tree, a reducer tree is a simple object mapping of object   properties to arrays of reducers which perform actions on that specific property.
+It's important to realise that array_append and default_state both return reducers.
+You can also specify your own reducers inside an array, incase there isn't a redux utility
+function to do what you need.
 - create_reducer is where the magic happens. It will combine the reducers specified
   for a certain property in the reducer tree, and call each one in the order they were defined.
 
@@ -238,6 +241,26 @@ a new array.
     }))
 ```
 ---
+4. What if I can't find a utility function that fits my needs?
+Lets assume there isn't a utility function for prepending an item to an array.
+And we wanted to be able to insert todo objects to the begging of the todos array.
+This can easily be accomplished by specifying your own reducer:
+```javascript 
+        todos:[
+            //Return the todo to be added
+            array_append('ADD_TODO')((state, action) =>{
+                return {
+                    id: state.length + 1,
+                    message: action.message
+                }
+            }),
+            //Specify our own reducer, which takes the current state
+            //and returns a new array with a new todo object prepending to the begging.
+            (state,action)=> [{id:state.length+1,message:action.message},...state],
+            default_state([])
+
+        ]
+```
 
 ## Available utility functions
 Note that the first argument for the first invocation of any utility function is always the key for the action.type.  
