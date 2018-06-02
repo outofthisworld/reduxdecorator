@@ -1,3 +1,7 @@
 {
-    "eslint.enable": true
+    "eslint.enable": true,
+    "eslint.autoFixOnSave":true,
+    "javascript.format.enable": false,
+    "prettier.eslintIntegration": true,
+    "editor.formatOnSave": true
 }
