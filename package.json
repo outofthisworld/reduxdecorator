@@ -1,26 +1,26 @@
 {
   "name": "redux_utils",
   "version": "1.0.0",
-  "description": "",
+  "description": "Utilities for working with redux",
   "main": "index.js",
   "scripts": {
-    "rollup":"rollup -c && babel index.js --out-file index.js",
-    "minify":"minify index.js -d minified",
-    "rename_min":"mv minified/index.js minified/redux_utils.js",
-    "copy_babel_output":"cp index.js redux_utils.js",
-    "copy_minified":"mv minified/redux_utils.js redux_utils.min.js",
+    "rollup": "rollup -c && babel index.js --out-file index.js",
+    "minify": "minify index.js -d minified",
+    "rename_min": "mv minified/index.js minified/redux_utils.js",
+    "copy_babel_output": "cp index.js redux_utils.js",
+    "copy_minified": "mv minified/redux_utils.js redux_utils.min.js",
     "build": "npm run rollup && npm run minify && npm run rename_min && npm run copy_babel_output && npm run copy_minified",
     "inttest": "node tests",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "redux": "^4.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-minify": "^0.4.3",
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "jslint": "^0.12.0",
+    "mocha": "^5.2.0"
   }
 }
