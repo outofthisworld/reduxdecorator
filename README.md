@@ -9,11 +9,11 @@ in index.js. It has been bundled/combined with rollup and transpiled with babel 
 Minified version of redux utils currently sits at 2.98kb which is tiny ! :)
 
 # Installation
-## via npm
+## Via npm
 ```bash
     npm install redux_utils --save
 ```
-## in browser environments
+## Browser environments
 [Minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.min.js)
 [Non-minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.js)
 ### CDN
