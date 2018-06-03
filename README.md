@@ -23,8 +23,23 @@ Minified version of redux utils currently sits at 3.95kb which is tiny ! :)
 [Minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.min.js)
 [Non-minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.js)
 ### CDN
-    ####todo
-    
+[Jsdelivr](https://cdn.jsdelivr.net/gh/outofthisworld/redux_utils@1.0.0/redux_utils.min.js)
+
+# Usage
+## ES6
+```javascript
+    import * as redux_utils from 'redux_utils';
+    //import { array_append } from 'redux_utils'
+```
+## Node
+```javascript
+    const redux_utils = require('redux_utils')
+    //const { array_append } = require('redux_utils);
+```
+## Browser
+```html
+    <script type="" src="https://cdn.jsdelivr.net/gh/outofthisworld/redux_utils@1.0.0/redux_utils.min.js"></script> 
+```
 
 # How does redux utils help?
 
