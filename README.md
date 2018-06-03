@@ -156,7 +156,7 @@ which return reducers. The above can be modeled using redux_utils:
             //Return the note to be added
             array_append('ADD_NOTE')((state, action) =>{
                 return {
-                    id: state.id,
+                    id: action.id,
                     message: action.noteMessage
                 }
             }),
@@ -177,6 +177,22 @@ You can also specify your own reducers inside an array, incase there isn't a red
 function to do what you need.
 - create_reducer is where the magic happens. It will combine the reducers specified
   for a certain property in the reducer tree, and call each one in the order they were defined.
+
+After we have created our store, we can now dispatch the following actions on the store:
+```javascript
+    store.dispatch({
+        type:'ADD_NOTE',
+        id:1,
+        noteMessage:'This is a message for a note'
+    })
+
+    store.dispatch({
+        type:'ADD_TODO',
+        message:'This is a message for a todo!'
+    })
+```
+With this in place have succesfully combated our initial problems with the code being brittle. We have seperated our concerns, both adding a note and adding a todo. Their associated logic can be changed with ease to accomadate the differences. Further more,
+we now have a key to associate with each reducer, namely the the action.type you give to it. This means that we can later cache this, so not all reducers in the application have to be invoked to target the one that needs to be invoked.
 
 #### You may have some question related to the previous code:
 ---
