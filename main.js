@@ -11,7 +11,7 @@ export {
   number_increment,
   number_decrement
 } from "./reducers/index.js";
-export function create_reducer(tree) {
+export function create_reducer(tree, { useCache = false }) {
   const create_reducer_ret = (prevState = {}, action) => {
     const isObject = obj =>
       obj === Object(obj) &&
@@ -20,8 +20,26 @@ export function create_reducer(tree) {
     if (!tree || !isObject(tree)) {
       throw new Error("Invalid tree");
     }
-    const cache = create_reducer_ret.cache;
-    if (cache && cache[action.type] && cache[action.type] === "function") {
+
+    const cacheHasKey = key =>
+      useCache &&
+      create_reducer_ret.cache &&
+      cache[key] &&
+      typeof cache[key] === "function";
+
+    const callReducers = (prev, cur) => {
+      if (typeof cur === "function") {
+        //Lazy load items into cache
+        if (cur.redux_utils_key && !cacheHasKey(cur.redux_utils_key)) {
+          cache[cur.redux_utils_key] = cur;
+        }
+        return cur(prev, action);
+      } else {
+        return prev;
+      }
+    };
+
+    if (cacheHasKey(action.type)) {
       const reducer = cache[action.type];
       prevState[key] = reducer(prevState[key], action);
     } else {
@@ -31,17 +49,7 @@ export function create_reducer(tree) {
           prevState[key] = prevState[key] || {};
           create_reducer(val)(prevState[key], action);
         } else if (Array.isArray(val)) {
-          prevState[key] = val.reduce((prev, cur) => {
-            if (typeof cur === "function") {
-              //Lazy load items into cache
-              if (cur.redux_utils_key && cache && !cache[cur.redux_utils_key]) {
-                cache[cur.redux_utils_key] = cur;
-              }
-              return cur(prev, action);
-            } else {
-              return prev;
-            }
-          }, prevState[key]);
+          prevState[key] = val.reduce(callReducers, prevState[key]);
         } else {
           prevState[key] = val;
         }

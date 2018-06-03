@@ -295,6 +295,12 @@ Performance of redux_utils has not been benchmarked yet. However, theoritically 
 be more effecient than a large application with lots of reducers using switch statements.
 This is because `create_reducer` returns a function which maintains a cache. Each function returned by redux_utils has a key property assigned to it, under the property `redux_utils_key` this key corresponds to the action.type. As such, if a key is found in the cache (which is lazily populated after the first store dispatch) then the reducer for that action.type/key can be invoked immediately without having to invoke every other reducer in the application.
 
+The downside to mainitaining the cache mapping is that it requires more memory, this may or may not be what you would like and would rather sacrifice CPU cycles. In that case
+you can explicity turn off use of caching when calling `create_reducer` as shown in the following example:
+```javascript
+    create_reducer(reducer_tree,{useCache:false});
+```
+
 ## Available utility functions
 Note that the first argument for the first invocation of any utility function is always the key for the action.type.  
 
