@@ -1,21 +1,51 @@
-'use strict';
+"use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof =
+  typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
+    ? function(obj) {
+        return typeof obj;
+      }
+    : function(obj) {
+        return obj &&
+          typeof Symbol === "function" &&
+          obj.constructor === Symbol &&
+          obj !== Symbol.prototype
+          ? "symbol"
+          : typeof obj;
+      };
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+}
 
-(function (global, factory) {
-  (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : factory(global.reduxreduce = {});
-})(undefined, function (exports) {
-  'use strict';
+(function(global, factory) {
+  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) ===
+    "object" && typeof module !== "undefined"
+    ? factory(exports)
+    : typeof define === "function" && define.amd
+      ? define(["exports"], factory)
+      : factory((global.reduxreduce = {}));
+})(undefined, function(exports) {
+  "use strict";
 
   var combine = function combine() {
-    for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+    for (
+      var _len = arguments.length, funcs = Array(_len), _key = 0;
+      _key < _len;
+      _key++
+    ) {
       funcs[_key] = arguments[_key];
     }
 
-    return function (state, action) {
-      return funcs.reduce(function (prev, cur) {
+    return function(state, action) {
+      return funcs.reduce(function(prev, cur) {
         if (typeof cur === "function") {
           return cur(prev, action);
         } else {
@@ -27,7 +57,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
   var simple_reducer = function simple_reducer(key, callback) {
     var simple_reducer_ret = function simple_reducer_ret(state) {
-      var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var action =
+        arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       switch (action.type) {
         case key:
@@ -40,56 +71,56 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   };
 
   var number_transform = function number_transform(key) {
-    return function (func) {
-      return simple_reducer(key, function (state, action) {
+    return function(func) {
+      return simple_reducer(key, function(state, action) {
         return func(state, action);
       });
     };
   };
 
   var number_increment = function number_increment(key) {
-    return simple_reducer(key, function (state, action) {
+    return simple_reducer(key, function(state, action) {
       return state + 1;
     });
   };
 
   var number_decrement = function number_decrement(key) {
-    return simple_reducer(key, function (state, action) {
+    return simple_reducer(key, function(state, action) {
       return state - 1;
     });
   };
 
-  var number_reducers = /*#__PURE__*/Object.freeze({
+  var number_reducers = /*#__PURE__*/ Object.freeze({
     number_transform: number_transform,
     number_increment: number_increment,
     number_decrement: number_decrement
   });
 
   var array_append = function array_append(key) {
-    return function (obj) {
-      return simple_reducer(key, function (state, action) {
+    return function(obj) {
+      return simple_reducer(key, function(state, action) {
         return [].concat(_toConsumableArray(state), [obj(state, action)]);
       });
     };
   };
 
   var array_prepend = function array_prepend(key) {
-    return function (obj) {
-      return simple_reducer(key, function (state, action) {
+    return function(obj) {
+      return simple_reducer(key, function(state, action) {
         return [obj(state, action)].concat(_toConsumableArray(state));
       });
     };
   };
 
   var array_remove_all = function array_remove_all(key) {
-    return simple_reducer(key, function () {
+    return simple_reducer(key, function() {
       return [];
     });
   };
 
   var array_remove_index = function array_remove_index(key) {
-    return function (index) {
-      return simple_reducer(key, function (state, action) {
+    return function(index) {
+      return simple_reducer(key, function(state, action) {
         var copy = [].concat(_toConsumableArray(state));
         var ind = index(state, action);
 
@@ -103,22 +134,24 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   };
 
   var array_set = function array_set(key) {
-    return function (obj) {
-      return simple_reducer(key, function (state, action) {
+    return function(obj) {
+      return simple_reducer(key, function(state, action) {
         var newArr = obj(state, action);
         if (!Array.isArray(newArr)) {
           throw new Error("reduxreduce error: array_set must return an array");
         }
         //The user modified the original array state
         if (newArr === state) {
-          throw new Error("reduxreduce error: original array was returned from array_set, please make sure you copy the state.");
+          throw new Error(
+            "reduxreduce error: original array was returned from array_set, please make sure you copy the state."
+          );
         }
         return newArr;
       });
     };
   };
 
-  var array_reducers = /*#__PURE__*/Object.freeze({
+  var array_reducers = /*#__PURE__*/ Object.freeze({
     array_append: array_append,
     array_prepend: array_prepend,
     array_remove_all: array_remove_all,
@@ -127,25 +160,26 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   });
 
   var boolean_set = function boolean_set(key) {
-    return function (func) {
+    return function(func) {
       return simple_reducer(key, func);
     };
   };
 
   var boolean_toggle = function boolean_toggle(key) {
-    return simple_reducer(key, function (state, action) {
+    return simple_reducer(key, function(state, action) {
       return !state;
     });
   };
 
-  var boolean_reducers = /*#__PURE__*/Object.freeze({
+  var boolean_reducers = /*#__PURE__*/ Object.freeze({
     boolean_set: boolean_set,
     boolean_toggle: boolean_toggle
   });
 
   function default_state(def) {
     return function default_state_ret() {
-      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : def;
+      var state =
+        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : def;
       var action = arguments[1];
 
       return state;
@@ -153,24 +187,27 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   }
 
   var array_append$1 = array_reducers.array_append,
-      array_prepend$1 = array_reducers.array_prepend,
-      array_remove_all$1 = array_reducers.array_remove_all,
-      array_remove_index$1 = array_reducers.array_remove_index,
-      array_set$1 = array_reducers.array_set;
+    array_prepend$1 = array_reducers.array_prepend,
+    array_remove_all$1 = array_reducers.array_remove_all,
+    array_remove_index$1 = array_reducers.array_remove_index,
+    array_set$1 = array_reducers.array_set;
   var boolean_set$1 = boolean_reducers.boolean_set,
-      boolean_toggle$1 = boolean_reducers.boolean_toggle;
+    boolean_toggle$1 = boolean_reducers.boolean_toggle;
   var number_transform$1 = number_reducers.number_transform,
-      number_increment$1 = number_reducers.number_increment,
-      number_decrement$1 = number_reducers.number_decrement;
-
+    number_increment$1 = number_reducers.number_increment,
+    number_decrement$1 = number_reducers.number_decrement;
 
   function create_reducer(tree) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var cache = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    var nested = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
+    var options =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var cache =
+      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var nested =
+      arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
 
     function create_reducer_ret() {
-      var prevState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var prevState =
+        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var action = arguments[1];
 
       var cacheHasKey = function cacheHasKey(key) {
@@ -183,7 +220,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
 
       var isObject = function isObject(obj) {
-        return obj === Object(obj) && Object.prototype.toString.call(obj) !== "[object Array]";
+        return (
+          obj === Object(obj) &&
+          Object.prototype.toString.call(obj) !== "[object Array]"
+        );
       };
 
       if (!tree || !isObject(tree)) {
@@ -191,7 +231,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
 
       var callReducers = function callReducers(nested) {
-        return function (prev, cur) {
+        return function(prev, cur) {
           if (typeof cur === "function") {
             //Lazy load items into cache
             if (cur.reduxreduce_key && optionsCopy.useCache) {
@@ -205,7 +245,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         };
       };
 
-      if (cacheHasKey(action.type) && typeof cache[action.type] === "function" && "reduxreduce_property" in cache[action.type] && optionsCopy.useCache) {
+      if (
+        cacheHasKey(action.type) &&
+        typeof cache[action.type] === "function" &&
+        "reduxreduce_property" in cache[action.type] &&
+        optionsCopy.useCache
+      ) {
         var reducer = cache[action.type];
         if (!("reduxreduce_property" in reducer)) {
           throw new Error("Missing reduxreduce_property");
@@ -259,5 +304,5 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   exports.simple_reducer = simple_reducer;
   exports.default_state = default_state;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
+  Object.defineProperty(exports, "__esModule", { value: true });
 });
