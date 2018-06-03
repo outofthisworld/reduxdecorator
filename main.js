@@ -11,8 +11,18 @@ export {
   number_increment,
   number_decrement
 } from "./reducers/index.js";
-export function create_reducer(tree, { useCache = false }) {
-  const create_reducer_ret = (prevState = {}, action) => {
+export { default as simple_reducer } from "./reducers/simple_reducer";
+export { default as default_state } from "./reducers/default_state";
+
+export function create_reducer(tree, options = {}, cache = {}, nested = []) {
+  function create_reducer_ret(prevState = {}, action) {
+    const cacheHasKey = key => cache && cache[key];
+    const optionsCopy = Object.assign({}, options);
+
+    if (!("useCache" in optionsCopy)) {
+      optionsCopy.useCache = true;
+    }
+
     const isObject = obj =>
       obj === Object(obj) &&
       Object.prototype.toString.call(obj) !== "[object Array]";
@@ -21,16 +31,11 @@ export function create_reducer(tree, { useCache = false }) {
       throw new Error("Invalid tree");
     }
 
-    const cacheHasKey = key =>
-      useCache &&
-      create_reducer_ret.cache &&
-      cache[key] &&
-      typeof cache[key] === "function";
-
-    const callReducers = (prev, cur) => {
+    const callReducers = nested => (prev, cur) => {
       if (typeof cur === "function") {
         //Lazy load items into cache
-        if (cur.redux_utils_key && !cacheHasKey(cur.redux_utils_key)) {
+        if (cur.redux_utils_key && optionsCopy.useCache) {
+          cur.redux_utils_property = [...nested];
           cache[cur.redux_utils_key] = cur;
         }
         return cur(prev, action);
@@ -39,24 +44,46 @@ export function create_reducer(tree, { useCache = false }) {
       }
     };
 
-    if (cacheHasKey(action.type)) {
+    if (
+      cacheHasKey(action.type) &&
+      typeof cache[action.type] === "function" &&
+      "redux_utils_property" in cache[action.type] &&
+      optionsCopy.useCache
+    ) {
       const reducer = cache[action.type];
-      prevState[key] = reducer(prevState[key], action);
+      if (!("redux_utils_property" in reducer)) {
+        throw new Error("Missing redux_utils_property");
+      }
+
+      const properties = reducer.redux_utils_property;
+      const last = properties[properties.length - 1];
+      const nextToLast = properties[properties.length - 2];
+
+      if (properties.length == 1) {
+        prevState[properties[0]] = reducer(prevState[properties[0]], action);
+      } else {
+        let current = null;
+        for (let i = 0; i < properties.length - 1; i++) {
+          current = prevState[properties[i]];
+        }
+        current[last] = reducer(current[last], action);
+      }
     } else {
-      for (key in tree) {
+      for (let key in tree) {
         const val = tree[key];
+        nested[nested.length] = key;
         if (isObject(val)) {
           prevState[key] = prevState[key] || {};
-          create_reducer(val)(prevState[key], action);
+          create_reducer(val, options, cache, nested)(prevState[key], action);
         } else if (Array.isArray(val)) {
-          prevState[key] = val.reduce(callReducers, prevState[key]);
+          prevState[key] = val.reduce(callReducers(nested), prevState[key]);
         } else {
           prevState[key] = val;
         }
+        nested = [];
       }
     }
     return prevState;
-  };
-  create_reducer.cache = {};
+  }
   return create_reducer_ret;
 }

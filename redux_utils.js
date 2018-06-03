@@ -56,7 +56,7 @@ function _toConsumableArray(arr) {
   };
 
   var simple_reducer = function simple_reducer(key, callback) {
-    var simple_reducer = function simple_reducer(state) {
+    var simple_reducer_ret = function simple_reducer_ret(state) {
       var action =
         arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -66,8 +66,8 @@ function _toConsumableArray(arr) {
       }
       return state;
     };
-    simple_reducer.redux_utils_key = key;
-    return simple_reducer;
+    simple_reducer_ret.redux_utils_key = key;
+    return simple_reducer_ret;
   };
 
   var number_transform = function number_transform(key) {
@@ -155,7 +155,7 @@ function _toConsumableArray(arr) {
     array_append: array_append,
     array_prepend: array_prepend,
     array_remove_all: array_remove_all,
-    array_reove_index: array_remove_index,
+    array_remove_index: array_remove_index,
     array_set: array_set
   });
 
@@ -176,6 +176,16 @@ function _toConsumableArray(arr) {
     boolean_toggle: boolean_toggle
   });
 
+  function default_state(def) {
+    return function default_state_ret() {
+      var state =
+        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : def;
+      var action = arguments[1];
+
+      return state;
+    };
+  }
+
   var array_append$1 = array_reducers.array_append,
     array_prepend$1 = array_reducers.array_prepend,
     array_remove_all$1 = array_reducers.array_remove_all,
@@ -187,14 +197,27 @@ function _toConsumableArray(arr) {
     number_increment$1 = number_reducers.number_increment,
     number_decrement$1 = number_reducers.number_decrement;
 
-  function create_reducer(tree, _ref) {
-    var _ref$useCache = _ref.useCache,
-      useCache = _ref$useCache === undefined ? false : _ref$useCache;
+  function create_reducer(tree) {
+    var options =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var cache =
+      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var nested =
+      arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
 
-    var create_reducer_ret = function create_reducer_ret() {
+    function create_reducer_ret() {
       var prevState =
         arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var action = arguments[1];
+
+      var cacheHasKey = function cacheHasKey(key) {
+        return cache && cache[key];
+      };
+      var optionsCopy = Object.assign({}, options);
+
+      if (!("useCache" in optionsCopy)) {
+        optionsCopy.useCache = true;
+      }
 
       var isObject = function isObject(obj) {
         return (
@@ -207,46 +230,62 @@ function _toConsumableArray(arr) {
         throw new Error("Invalid tree");
       }
 
-      var cacheHasKey = function cacheHasKey(key) {
-        return (
-          useCache &&
-          create_reducer_ret.cache &&
-          cache[key] &&
-          typeof cache[key] === "function"
-        );
-      };
-
-      var callReducers = function callReducers(prev, cur) {
-        if (typeof cur === "function") {
-          //Lazy load items into cache
-          if (cur.redux_utils_key && !cacheHasKey(cur.redux_utils_key)) {
-            cache[cur.redux_utils_key] = cur;
+      var callReducers = function callReducers(nested) {
+        return function(prev, cur) {
+          if (typeof cur === "function") {
+            //Lazy load items into cache
+            if (cur.redux_utils_key && optionsCopy.useCache) {
+              cur.redux_utils_property = [].concat(_toConsumableArray(nested));
+              cache[cur.redux_utils_key] = cur;
+            }
+            return cur(prev, action);
+          } else {
+            return prev;
           }
-          return cur(prev, action);
-        } else {
-          return prev;
-        }
+        };
       };
 
-      if (cacheHasKey(action.type)) {
+      if (
+        cacheHasKey(action.type) &&
+        typeof cache[action.type] === "function" &&
+        "redux_utils_property" in cache[action.type] &&
+        optionsCopy.useCache
+      ) {
         var reducer = cache[action.type];
-        prevState[key] = reducer(prevState[key], action);
+        if (!("redux_utils_property" in reducer)) {
+          throw new Error("Missing redux_utils_property");
+        }
+
+        var properties = reducer.redux_utils_property;
+        var last = properties[properties.length - 1];
+        var nextToLast = properties[properties.length - 2];
+
+        if (properties.length == 1) {
+          prevState[properties[0]] = reducer(prevState[properties[0]], action);
+        } else {
+          var current = null;
+          for (var i = 0; i < properties.length - 1; i++) {
+            current = prevState[properties[i]];
+          }
+          current[last] = reducer(current[last], action);
+        }
       } else {
-        for (key in tree) {
+        for (var key in tree) {
           var val = tree[key];
+          nested[nested.length] = key;
           if (isObject(val)) {
             prevState[key] = prevState[key] || {};
-            create_reducer(val)(prevState[key], action);
+            create_reducer(val, options, cache, nested)(prevState[key], action);
           } else if (Array.isArray(val)) {
-            prevState[key] = val.reduce(callReducers, prevState[key]);
+            prevState[key] = val.reduce(callReducers(nested), prevState[key]);
           } else {
             prevState[key] = val;
           }
+          nested = [];
         }
       }
       return prevState;
-    };
-    create_reducer.cache = {};
+    }
     return create_reducer_ret;
   }
 
@@ -262,6 +301,8 @@ function _toConsumableArray(arr) {
   exports.number_transform = number_transform$1;
   exports.number_increment = number_increment$1;
   exports.number_decrement = number_decrement$1;
+  exports.simple_reducer = simple_reducer;
+  exports.default_state = default_state;
 
   Object.defineProperty(exports, "__esModule", { value: true });
 });
