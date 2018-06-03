@@ -23,7 +23,7 @@ Minified version of reduxreduce currently sits at 3.95kb which is tiny ! :)
 [Minified script](https://raw.githubusercontent.com/outofthisworld/reduxreduce/master/reduxreduce.min.js)
 [Non-minified script](https://raw.githubusercontent.com/outofthisworld/reduxreduce/master/reduxreduce.js)
 ### CDN
-[Jsdelivr](https://cdn.jsdelivr.net/gh/outofthisworld/reduxreduce@1.0.0/reduxreduce.min.js)
+[Jsdelivr](https://cdn.jsdelivr.net/gh/outofthisworld/reduxreduce@1.0.1/reduxreduce.min.js)
 
 # Usage
 ## ES6
