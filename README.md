@@ -397,10 +397,20 @@ Note that the first argument for the first invocation of any utility function is
 ```
 
 ### Utility functions operating on numbers:
+#### number_increment
+```javascript
+    //Transform a number, return the new number.
+    number_increment('DECREMENT_COUNT');
+```
+#### number_decrement
+```javascript
+    //Transform a number, return the new number.
+    number_decrement('INCREMENT_COUNT')
+```
 #### number_transform
 ```javascript
     //Transform a number, return the new number.
-    number_transform('INCREMENT_COUNT')((state, action) =>  state + action.amount)
+    number_transform('TRANSFORM_COUNT')((state, action) =>  state + action.amount)
 ```
 
 
