@@ -11,25 +11,44 @@ export {
   number_increment,
   number_decrement
 } from "./reducers/index.js";
-export function create_reducer(prevState = {}, action) {
-  const isObject = obj =>
-    obj === Object(obj) &&
-    Object.prototype.toString.call(obj) !== "[object Array]";
+export function create_reducer(tree) {
+  const create_reducer_ret = (prevState = {}, action) => {
+    const isObject = obj =>
+      obj === Object(obj) &&
+      Object.prototype.toString.call(obj) !== "[object Array]";
 
-  if (!tree || !isObject(tree)) {
-    throw new Error("Invalid tree");
-  }
-  for (key in tree) {
-    const val = tree[key];
-    if (isObject(val)) {
-      prevState[key] = prevState[key] || {};
-      create_reducer(val)(prevState[key], action);
-    } else if (Array.isArray(val)) {
-      const reducer = combine.apply(null, val);
+    if (!tree || !isObject(tree)) {
+      throw new Error("Invalid tree");
+    }
+    const cache = create_reducer_ret.cache;
+    if (cache && cache[action.type] && cache[action.type] === "function") {
+      const reducer = cache[action.type];
       prevState[key] = reducer(prevState[key], action);
     } else {
-      prevState[key] = val;
+      for (key in tree) {
+        const val = tree[key];
+        if (isObject(val)) {
+          prevState[key] = prevState[key] || {};
+          create_reducer(val)(prevState[key], action);
+        } else if (Array.isArray(val)) {
+          prevState[key] = val.reduce((prev, cur) => {
+            if (typeof cur === "function") {
+              //Lazy load items into cache
+              if (cur.redux_utils_key && cache && !cache[cur.redux_utils_key]) {
+                cache[cur.redux_utils_key] = cur;
+              }
+              return cur(prev, action);
+            } else {
+              return prev;
+            }
+          }, prevState[key]);
+        } else {
+          prevState[key] = val;
+        }
+      }
     }
-  }
-  return prevState;
+    return prevState;
+  };
+  create_reducer.cache = {};
+  return create_reducer_ret;
 }

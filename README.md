@@ -290,6 +290,11 @@ the names though that is easy to fix, simply import them as different names!
 ```
 ---
 
+## Performance
+Performance of redux_utils has not been benchmarked yet. However, theoritically it should
+be more effecient than a large application with lots of reducers using switch statements.
+This is because `create_reducer` returns a function which maintains a cache. Each function returned by redux_utils has a key property assigned to it, under the property `redux_utils_key`. These keys are then mapped to the 
+
 ## Available utility functions
 Note that the first argument for the first invocation of any utility function is always the key for the action.type.  
 

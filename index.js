@@ -1,21 +1,51 @@
-'use strict';
+"use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof =
+  typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
+    ? function(obj) {
+        return typeof obj;
+      }
+    : function(obj) {
+        return obj &&
+          typeof Symbol === "function" &&
+          obj.constructor === Symbol &&
+          obj !== Symbol.prototype
+          ? "symbol"
+          : typeof obj;
+      };
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+}
 
-(function (global, factory) {
-  (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : factory(global.redux_utils = {});
-})(undefined, function (exports) {
-  'use strict';
+(function(global, factory) {
+  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) ===
+    "object" && typeof module !== "undefined"
+    ? factory(exports)
+    : typeof define === "function" && define.amd
+      ? define(["exports"], factory)
+      : factory((global.redux_utils = {}));
+})(undefined, function(exports) {
+  "use strict";
 
-  var combine$1 = function combine$1() {
-    for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+  var combine = function combine() {
+    for (
+      var _len = arguments.length, funcs = Array(_len), _key = 0;
+      _key < _len;
+      _key++
+    ) {
       funcs[_key] = arguments[_key];
     }
 
-    return function (state, action) {
-      return funcs.reduce(function (prev, cur) {
+    return function(state, action) {
+      return funcs.reduce(function(prev, cur) {
         if (typeof cur === "function") {
           return cur(prev, action);
         } else {
@@ -26,8 +56,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   };
 
   var simple_reducer = function simple_reducer(key, callback) {
-    return function (state) {
-      var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var simple_reducer = function simple_reducer(state) {
+      var action =
+        arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       switch (action.type) {
         case key:
@@ -35,59 +66,61 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
       return state;
     };
+    simple_reducer.redux_utils_key = key;
+    return simple_reducer;
   };
 
   var number_transform = function number_transform(key) {
-    return function (func) {
-      return simple_reducer(key, function (state, action) {
+    return function(func) {
+      return simple_reducer(key, function(state, action) {
         return func(state, action);
       });
     };
   };
 
   var number_increment = function number_increment(key) {
-    return simple_reducer(key, function (state, action) {
+    return simple_reducer(key, function(state, action) {
       return state + 1;
     });
   };
 
   var number_decrement = function number_decrement(key) {
-    return simple_reducer(key, function (state, action) {
+    return simple_reducer(key, function(state, action) {
       return state - 1;
     });
   };
 
-  var number_reducers = /*#__PURE__*/Object.freeze({
+  var number_reducers = /*#__PURE__*/ Object.freeze({
     number_transform: number_transform,
     number_increment: number_increment,
     number_decrement: number_decrement
   });
 
   var array_append = function array_append(key) {
-    return function (obj) {
-      return simple_reducer(key, function (state, action) {
+    return function(obj) {
+      return simple_reducer(key, function(state, action) {
         return [].concat(_toConsumableArray(state), [obj(state, action)]);
       });
     };
   };
 
   var array_prepend = function array_prepend(key) {
-    return function (obj) {
-      return simple_reducer(key, function (state, action) {
+    return function(obj) {
+      return simple_reducer(key, function(state, action) {
         return [obj(state, action)].concat(_toConsumableArray(state));
       });
     };
   };
 
   var array_remove_all = function array_remove_all(key) {
-    return simple_reducer(key, function () {
+    return simple_reducer(key, function() {
       return [];
     });
   };
 
   var array_remove_index = function array_remove_index(key) {
-    return function (index) {
-      return simple_reducer(key, function (state, action) {
+    return function(index) {
+      return simple_reducer(key, function(state, action) {
         var copy = [].concat(_toConsumableArray(state));
         var ind = index(state, action);
 
@@ -101,22 +134,24 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   };
 
   var array_set = function array_set(key) {
-    return function (obj) {
-      return simple_reducer(key, function (state, action) {
+    return function(obj) {
+      return simple_reducer(key, function(state, action) {
         var newArr = obj(state, action);
         if (!Array.isArray(newArr)) {
           throw new Error("Redux_utils error: array_set must return an array");
         }
         //The user modified the original array state
         if (newArr === state) {
-          throw new Error("Redux_utils error: original array was returned from array_set, please make sure you copy the state.");
+          throw new Error(
+            "Redux_utils error: original array was returned from array_set, please make sure you copy the state."
+          );
         }
         return newArr;
       });
     };
   };
 
-  var array_reducers = /*#__PURE__*/Object.freeze({
+  var array_reducers = /*#__PURE__*/ Object.freeze({
     array_append: array_append,
     array_prepend: array_prepend,
     array_remove_all: array_remove_all,
@@ -125,62 +160,88 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   });
 
   var boolean_set = function boolean_set(key) {
-    return function (func) {
+    return function(func) {
       return simple_reducer(key, func);
     };
   };
 
   var boolean_toggle = function boolean_toggle(key) {
-    return simple_reducer(key, function (state, action) {
+    return simple_reducer(key, function(state, action) {
       return !state;
     });
   };
 
-  var boolean_reducers = /*#__PURE__*/Object.freeze({
+  var boolean_reducers = /*#__PURE__*/ Object.freeze({
     boolean_set: boolean_set,
     boolean_toggle: boolean_toggle
   });
 
   var array_append$1 = array_reducers.array_append,
-      array_prepend$1 = array_reducers.array_prepend,
-      array_remove_all$1 = array_reducers.array_remove_all,
-      array_remove_index$1 = array_reducers.array_remove_index,
-      array_set$1 = array_reducers.array_set;
+    array_prepend$1 = array_reducers.array_prepend,
+    array_remove_all$1 = array_reducers.array_remove_all,
+    array_remove_index$1 = array_reducers.array_remove_index,
+    array_set$1 = array_reducers.array_set;
   var boolean_set$1 = boolean_reducers.boolean_set,
-      boolean_toggle$1 = boolean_reducers.boolean_toggle;
+    boolean_toggle$1 = boolean_reducers.boolean_toggle;
   var number_transform$1 = number_reducers.number_transform,
-      number_increment$1 = number_reducers.number_increment,
-      number_decrement$1 = number_reducers.number_decrement;
+    number_increment$1 = number_reducers.number_increment,
+    number_decrement$1 = number_reducers.number_decrement;
 
+  function create_reducer(tree) {
+    var create_reducer_ret = function create_reducer_ret() {
+      var prevState =
+        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var action = arguments[1];
 
-  function create_reducer() {
-    var prevState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var action = arguments[1];
+      var isObject = function isObject(obj) {
+        return (
+          obj === Object(obj) &&
+          Object.prototype.toString.call(obj) !== "[object Array]"
+        );
+      };
 
-    var isObject = function isObject(obj) {
-      return obj === Object(obj) && Object.prototype.toString.call(obj) !== "[object Array]";
-    };
-
-    if (!tree || !isObject(tree)) {
-      throw new Error("Invalid tree");
-    }
-    for (key in tree) {
-      var val = tree[key];
-      if (isObject(val)) {
-        prevState[key] = prevState[key] || {};
-        create_reducer(val)(prevState[key], action);
-      } else if (Array.isArray(val)) {
-        var reducer = combine.apply(null, val);
+      if (!tree || !isObject(tree)) {
+        throw new Error("Invalid tree");
+      }
+      var cache = create_reducer_ret.cache;
+      if (cache && cache[action.type] && cache[action.type] === "function") {
+        var reducer = cache[action.type];
         prevState[key] = reducer(prevState[key], action);
       } else {
-        prevState[key] = val;
+        for (key in tree) {
+          var val = tree[key];
+          if (isObject(val)) {
+            prevState[key] = prevState[key] || {};
+            create_reducer(val)(prevState[key], action);
+          } else if (Array.isArray(val)) {
+            prevState[key] = val.reduce(function(prev, cur) {
+              if (typeof cur === "function") {
+                //Lazy load items into cache
+                if (
+                  cur.redux_utils_key &&
+                  cache &&
+                  !cache[cur.redux_utils_key]
+                ) {
+                  cache[cur.redux_utils_key] = cur;
+                }
+                return cur(prev, action);
+              } else {
+                return prev;
+              }
+            }, prevState[key]);
+          } else {
+            prevState[key] = val;
+          }
+        }
       }
-    }
-    return prevState;
+      return prevState;
+    };
+    create_reducer.cache = {};
+    return create_reducer_ret;
   }
 
   exports.create_reducer = create_reducer;
-  exports.combine = combine$1;
+  exports.combine = combine;
   exports.array_append = array_append$1;
   exports.array_prepend = array_prepend$1;
   exports.array_remove_all = array_remove_all$1;
@@ -192,5 +253,5 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   exports.number_increment = number_increment$1;
   exports.number_decrement = number_decrement$1;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
+  Object.defineProperty(exports, "__esModule", { value: true });
 });
