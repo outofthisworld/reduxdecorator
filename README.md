@@ -1,47 +1,47 @@
 
-[![Build Status](https://travis-ci.org/outofthisworld/redux_utils.svg?branch=master)](https://travis-ci.org/outofthisworld/redux_utils)
-[![Coverage Status](https://coveralls.io/repos/github/outofthisworld/redux_utils/badge.svg?branch=master)](https://coveralls.io/github/outofthisworld/redux_utils?branch=master)
+[![Build Status](https://travis-ci.org/outofthisworld/reduxreduce.svg?branch=master)](https://travis-ci.org/outofthisworld/reduxreduce)
+[![Coverage Status](https://coveralls.io/repos/github/outofthisworld/reduxreduce/badge.svg?branch=master)](https://coveralls.io/github/outofthisworld/reduxreduce?branch=master)
 
-# Redux utils
-Redux utils is a simple utility library to make it easier for working with redux,
+# Reduxreduce
+reduxreduce is a simple utility library to make it easier for working with redux,
 and reduces the need to create unecessary duplicate code for trivial tasks that
 are performed on state. It is defined as a single UMD module and can be viewed
 in index.js. It has been bundled/combined with rollup and transpiled with babel to produce the final output and thus should work on the majority of browsers out there.
 
 # Contributing
-Feel free to contribute to redux_utils by issuing a pull request if you have an idea or want to write some tests. Currently aiming for 100% code coverage which shouldn't be too dificult as there is a small amount of code.
+Feel free to contribute to reduxreduce by issuing a pull request if you have an idea or want to write some tests. Currently aiming for 100% code coverage which shouldn't be too dificult as there is a small amount of code.
 
 # Size
-Minified version of redux utils currently sits at 3.95kb which is tiny ! :)
+Minified version of reduxreduce currently sits at 3.95kb which is tiny ! :)
 
 # Installation
 ## Via npm
 ```bash
-    npm install redux_utils --save
+    npm install reduxreduce --save
 ```
 ## Browser environments
-[Minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.min.js)
-[Non-minified script](https://raw.githubusercontent.com/outofthisworld/redux_utils/master/redux_utils.js)
+[Minified script](https://raw.githubusercontent.com/outofthisworld/reduxreduce/master/reduxreduce.min.js)
+[Non-minified script](https://raw.githubusercontent.com/outofthisworld/reduxreduce/master/reduxreduce.js)
 ### CDN
-[Jsdelivr](https://cdn.jsdelivr.net/gh/outofthisworld/redux_utils@1.0.0/redux_utils.min.js)
+[Jsdelivr](https://cdn.jsdelivr.net/gh/outofthisworld/reduxreduce@1.0.0/reduxreduce.min.js)
 
 # Usage
 ## ES6
 ```javascript
-    import * as redux_utils from 'redux_utils';
-    //import { array_append } from 'redux_utils'
+    import * as reduxreduce from 'reduxreduce';
+    //import { array_append } from 'reduxreduce'
 ```
 ## Node
 ```javascript
-    const redux_utils = require('redux_utils')
-    //const { array_append } = require('redux_utils);
+    const reduxreduce = require('reduxreduce')
+    //const { array_append } = require('reduxreduce);
 ```
 ## Browser
 ```html
-    <script type="" src="https://cdn.jsdelivr.net/gh/outofthisworld/redux_utils@1.0.0/redux_utils.min.js"></script> 
+    <script type="" src="https://cdn.jsdelivr.net/gh/outofthisworld/reduxreduce@1.0.0/reduxreduce.min.js"></script> 
 ```
 
-# How does redux utils help?
+# How does reduxreduce help?
 
 Assume we have a simple todo application, and thus have to model a todos state.
 We might end up writing a reducer that looks like this:
@@ -151,16 +151,16 @@ this code breaks.
 
 The examples above are trivial, but the highlight a key point in that reducers
 should be generic, easily usable in any circumstance for any type of data.
-Redux utils provides a set of functions to help creating reducers easy.
+reduxreduce provides a set of functions to help creating reducers easy.
 It also provides an a function which operates on a object modeled by reducers
 making working with state alot easier.
 
-# Creating the state with redux utils
-Redux utils provides a set of useful set of utility methods (scroll down to see the list)
-which return reducers. The above can be modeled using redux_utils:
+# Creating the state with reduxreduce
+reduxreduce provides a set of useful set of utility methods (scroll down to see the list)
+which return reducers. The above can be modeled using reduxreduce:
 ```javascript
     import { createStore } from 'redux';
-    import { array_append, create_reducer,default_state } from 'redux_utils';
+    import { array_append, create_reducer,default_state } from 'reduxreduce';
     const reducer_tree = {
         todos:[
             //Return the todo to be added
@@ -190,7 +190,7 @@ which return reducers. The above can be modeled using redux_utils:
 This may look a little different from what you are used to, however lets walk through the steps.
 
 - We import createStore from redux, this is what we use to create a redux store.
-- We import three functions from redux_utils array_append, create_reducer and default_state
+- We import three functions from reduxreduce array_append, create_reducer and default_state
     - All three functions return reducers! No fancy magic.
 - We define our reducer tree, a reducer tree is a simple object mapping of object   properties to arrays of reducers which perform actions on that specific property.
 It's important to realise that array_append and default_state both return reducers.
@@ -323,14 +323,14 @@ with booleans, so this is not allowed. However, glancing at the code without the
 makes this harder to spot and thus leads to more confusion down the line. If you don't like
 the names though that is easy to fix, simply import them as different names!
 ```javacript
-    import { array_append as append } from 'redux_utils';
+    import { array_append as append } from 'reduxreduce';
 ```
 ---
 
 ## Performance
-Performance of redux_utils has not been benchmarked yet. However, theoritically it should
+Performance of reduxreduce has not been benchmarked yet. However, theoritically it should
 be more effecient than a large application with lots of reducers using switch statements.
-This is because `create_reducer` returns a function which maintains a cache. Each function returned by redux_utils has a key property assigned to it, under the property `redux_utils_key` this key corresponds to the action.type. As such, if a key is found in the cache (which is lazily populated after the first store dispatch) then the reducer for that action.type/key can be invoked immediately without having to invoke every other reducer in the application.
+This is because `create_reducer` returns a function which maintains a cache. Each function returned by reduxreduce has a key property assigned to it, under the property `reduxreduce_key` this key corresponds to the action.type. As such, if a key is found in the cache (which is lazily populated after the first store dispatch) then the reducer for that action.type/key can be invoked immediately without having to invoke every other reducer in the application.
 
 The downside to mainitaining the cache mapping is that it requires more memory, this may or may not be what you would like and would rather sacrifice CPU cycles. In that case
 you can explicity turn off use of caching when calling `create_reducer` as shown in the following example:

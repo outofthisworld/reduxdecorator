@@ -1,5 +1,5 @@
 /*
-  A messy but complete example of using redux_utils.
+  A messy but complete example of using reduxreduce.
 */
 const { createStore } = require("redux");
 const {
@@ -16,7 +16,7 @@ const {
   number_increment,
   number_decrement,
   default_state
-} = require("redux_utils"); //Same as require('redux_utils');
+} = require("reduxreduce"); //Same as require('reduxreduce');
 
 let store;
 
@@ -216,8 +216,8 @@ const testHaveReduxUtilsKey = () => {
     return [...action.todos];
   });
 
-  assert(reducer.redux_utils_key === "key");
-  assert(append_reducer.redux_utils_key === "append");
+  assert(reducer.reduxreduce_key === "key");
+  assert(append_reducer.reduxreduce_key === "append");
 };
 
 testAddTodo();

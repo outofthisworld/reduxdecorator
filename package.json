@@ -1,16 +1,18 @@
 {
-  "name": "redux_utils",
+  "name": "reduxreduce",
   "version": "1.0.0",
   "description": "Utilities for working with redux",
   "main": "index.js",
   "scripts": {
     "rollup": "rollup -c && babel index.js --out-file index.js",
     "minify": "minify index.js -d minified",
-    "rename_min": "mv minified/index.js minified/redux_utils.js",
-    "copy_babel_output": "cp index.js redux_utils.js",
-    "copy_minified": "mv minified/redux_utils.js redux_utils.min.js",
-    "build": "npm run rollup && npm run minify && npm run rename_min && npm run copy_babel_output && npm run copy_minified",
-    "clean": "rm -rf minified && rm redux_utils.js && rm redux_utils.min.js && rm index.js",
+    "rename_min": "mv minified/index.js minified/reduxreduce.js",
+    "copy_babel_output": "cp index.js reduxreduce.js",
+    "copy_minified": "mv minified/reduxreduce.js reduxreduce.min.js",
+    "build":
+      "npm run rollup && npm run minify && npm run rename_min && npm run copy_babel_output && npm run copy_minified",
+    "clean":
+      "rm -rf minified && rm reduxreduce.js && rm reduxreduce.min.js && rm index.js",
     "inttest": "node tests",
     "test": "mocha"
   },
