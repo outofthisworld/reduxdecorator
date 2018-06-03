@@ -1,4 +1,6 @@
 
+[![Build Status](https://travis-ci.org/outofthisworld/redux_utils.svg?branch=master)](https://travis-ci.org/outofthisworld/redux_utils)
+
 # Redux utils
 Redux utils is a simple utility library to make it easier for working with redux,
 and reduces the need to create unecessary duplicate code for trivial tasks that
