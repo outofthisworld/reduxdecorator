@@ -13,10 +13,28 @@
       "npm run rollup && npm run minify && npm run rename_min && npm run copy_babel_output && npm run copy_minified",
     "clean":
       "rm -rf minified && rm reduxreduce.js && rm reduxreduce.min.js && rm index.js",
-    "inttest": "node tests",
     "test": "mocha"
   },
-  "author": "",
+  "keywords": [
+    "redux",
+    "utils",
+    "utility",
+    "library",
+    "reducer",
+    "reduxreducer",
+    "composition",
+    "react",
+    "store",
+    "dispatch"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/outofthisworld/Reduxreduce"
+  },
+  "bugs": {
+    "url": "https://github.com/outofthisworld/Reduxreduce/issues"
+  },
+  "author": "outofthisworld",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
