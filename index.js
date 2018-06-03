@@ -187,7 +187,10 @@ function _toConsumableArray(arr) {
     number_increment$1 = number_reducers.number_increment,
     number_decrement$1 = number_reducers.number_decrement;
 
-  function create_reducer(tree) {
+  function create_reducer(tree, _ref) {
+    var _ref$useCache = _ref.useCache,
+      useCache = _ref$useCache === undefined ? false : _ref$useCache;
+
     var create_reducer_ret = function create_reducer_ret() {
       var prevState =
         arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -203,8 +206,29 @@ function _toConsumableArray(arr) {
       if (!tree || !isObject(tree)) {
         throw new Error("Invalid tree");
       }
-      var cache = create_reducer_ret.cache;
-      if (cache && cache[action.type] && cache[action.type] === "function") {
+
+      var cacheHasKey = function cacheHasKey(key) {
+        return (
+          useCache &&
+          create_reducer_ret.cache &&
+          cache[key] &&
+          typeof cache[key] === "function"
+        );
+      };
+
+      var callReducers = function callReducers(prev, cur) {
+        if (typeof cur === "function") {
+          //Lazy load items into cache
+          if (cur.redux_utils_key && !cacheHasKey(cur.redux_utils_key)) {
+            cache[cur.redux_utils_key] = cur;
+          }
+          return cur(prev, action);
+        } else {
+          return prev;
+        }
+      };
+
+      if (cacheHasKey(action.type)) {
         var reducer = cache[action.type];
         prevState[key] = reducer(prevState[key], action);
       } else {
@@ -214,21 +238,7 @@ function _toConsumableArray(arr) {
             prevState[key] = prevState[key] || {};
             create_reducer(val)(prevState[key], action);
           } else if (Array.isArray(val)) {
-            prevState[key] = val.reduce(function(prev, cur) {
-              if (typeof cur === "function") {
-                //Lazy load items into cache
-                if (
-                  cur.redux_utils_key &&
-                  cache &&
-                  !cache[cur.redux_utils_key]
-                ) {
-                  cache[cur.redux_utils_key] = cur;
-                }
-                return cur(prev, action);
-              } else {
-                return prev;
-              }
-            }, prevState[key]);
+            prevState[key] = val.reduce(callReducers, prevState[key]);
           } else {
             prevState[key] = val;
           }

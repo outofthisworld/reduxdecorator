@@ -191,7 +191,7 @@ After we have created our store, we can now dispatch the following actions on th
         message:'This is a message for a todo!'
     })
 ```
-With this in place have succesfully combated our initial problems with the code being brittle. We have seperated our concerns, both adding a note and adding a todo. Their associated logic can be changed with ease to accomadate the differences. Further more,
+With this in place have successfully combated our initial problems with the code being brittle. We have seperated our concerns, both adding a note and adding a todo. Their associated logic can be changed with ease to accomadate the differences. Further more,
 we now have a key to associate with each reducer, namely the the action.type you give to it. This means that we can later cache this, so not all reducers in the application have to be invoked to target the one that needs to be invoked.
 
 #### You may have some question related to the previous code:
