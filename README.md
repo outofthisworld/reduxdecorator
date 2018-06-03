@@ -1,5 +1,6 @@
 
 [![Build Status](https://travis-ci.org/outofthisworld/redux_utils.svg?branch=master)](https://travis-ci.org/outofthisworld/redux_utils)
+[![Coverage Status](https://coveralls.io/repos/github/outofthisworld/redux_utils/badge.svg?branch=master)](https://coveralls.io/github/outofthisworld/redux_utils?branch=master)
 
 # Redux utils
 Redux utils is a simple utility library to make it easier for working with redux,
