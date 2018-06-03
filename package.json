@@ -9,16 +9,16 @@
     "rename_min": "mv minified/index.js minified/redux_utils.js",
     "copy_babel_output": "cp index.js redux_utils.js",
     "copy_minified": "mv minified/redux_utils.js redux_utils.min.js",
-    "build": "npm run rollup && npm run minify && npm run rename_min && npm run copy_babel_output && npm run copy_minified",
-    "clean": "rm -rf minified && rm redux_utils.js && rm redux_utils.min.js && rm index.js",
+    "build":
+      "npm run rollup && npm run minify && npm run rename_min && npm run copy_babel_output && npm run copy_minified",
+    "clean":
+      "rm -rf minified && rm redux_utils.js && rm redux_utils.min.js && rm index.js",
     "inttest": "node tests",
     "test": "mocha"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "redux": "^4.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-minify": "^0.4.3",

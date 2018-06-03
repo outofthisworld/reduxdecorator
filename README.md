@@ -5,8 +5,11 @@ and reduces the need to create unecessary duplicate code for trivial tasks that
 are performed on state. It is defined as a single UMD module and can be viewed
 in index.js. It has been bundled/combined with rollup and transpiled with babel to produce the final output and thus should work on the majority of browsers out there.
 
+# Contributing
+Feel free to contribute to redux_utils by issuing a pull request if you have an idea or want to write some tests. Currently aiming for 100% code coverage which shouldn't be too dificult as there is a small amount of code.
+
 # Size
-Minified version of redux utils currently sits at 2.98kb which is tiny ! :)
+Minified version of redux utils currently sits at 3.95kb which is tiny ! :)
 
 # Installation
 ## Via npm
@@ -351,6 +354,16 @@ Note that the first argument for the first invocation of any utility function is
            }
        }
        
+```
+#### array_prepend
+```javascript
+    array_prepend('PREPEND_TODO')((state, action) =>{
+         //Return the todo to be added
+        return {
+            id: state.length + 1,
+            message: action.message
+         }
+    })
 ```
 #### array_remove_index
 ```javascript

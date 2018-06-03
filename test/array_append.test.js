@@ -22,6 +22,11 @@ describe("Array", function() {
       }
     });
 
+    it("Has key assigned", function() {
+      const reducer = array_append("key")(function() {});
+      assert.deepEqual(reducer.redux_utils_key, "key");
+    });
+
     it("Should append item to state", function() {
       let state = [];
       const action = {
@@ -40,6 +45,24 @@ describe("Array", function() {
       assert.notEqual(item, undefined);
       assert.notEqual(item, null);
       assert.deepEqual(item, { id: 1 });
+    });
+
+    it("Should be the last item in the state", function() {
+      let state = [{ id: 1 }];
+      const action = {
+        type: "KEY"
+      };
+
+      const reducer = array_append("KEY")(function(state, action) {
+        return {
+          id: 2
+        };
+      });
+
+      const newState = reducer(state, action);
+      const [first, second] = newState;
+      assert.equal(second.id, 2);
+      assert.notEqual(newState, state);
     });
 
     it("Should append item to state not not modifying original state", function() {

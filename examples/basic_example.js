@@ -16,7 +16,7 @@ const {
   number_increment,
   number_decrement,
   default_state
-} = require("../index"); //Same as require('redux_utils');
+} = require("redux_utils"); //Same as require('redux_utils');
 
 let store;
 
