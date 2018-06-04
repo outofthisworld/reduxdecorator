@@ -1,6 +1,6 @@
 
 [![Build Status](https://travis-ci.org/outofthisworld/reduxredup.svg?branch=master)](https://travis-ci.org/outofthisworld/reduxredup)
-[![Coverage Status](https://coveralls.io/repos/github/outofthisworld/reduxredup/badge.svg?branch=master)](https://coveralls.io/github/outofthisworld/reduxredup?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/outofthisworld/reduxredup/badge.svg?branch=master)](https://coveralls.io/github/outofthisworld/reduxredup?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/outofthisworld/reduxredup.svg)](https://greenkeeper.io/)
 
 # reduxredup
 reduxredup is a simple utility library to make it easier for working with redux,
