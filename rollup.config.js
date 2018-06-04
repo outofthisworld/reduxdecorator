@@ -2,7 +2,7 @@ export default {
   input: 'main.js',
   output: {
     file: 'index.js',
-    name:'reduxreduce',
+    name:'reduxredup',
     format: 'umd'
   }
 };

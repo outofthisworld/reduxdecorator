@@ -24,7 +24,7 @@ describe("Array", function() {
 
     it("Has key assigned", function() {
       const reducer = array_append("key")(function() {});
-      assert.deepEqual(reducer.reduxreduce_key, "key");
+      assert.deepEqual(reducer.reduxredup_key, "key");
     });
 
     it("Should append item to state", function() {

@@ -6,7 +6,7 @@ export default key => index =>
     const ind = index(state, action);
 
     if (!Number.isInteger(ind) || ind < 0 || ind >= copy.length) {
-      throw new Error("reduxreduce error: invalid index returned");
+      throw new Error("reduxreduperror: invalid index returned");
     }
     copy.splice(ind, 1);
     return copy;

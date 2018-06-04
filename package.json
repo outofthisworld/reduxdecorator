@@ -1,18 +1,18 @@
 {
-  "name": "reduxreduce",
+  "name": "reduxredup",
   "version": "1.0.0",
   "description": "Utilities for working with redux",
   "main": "index.js",
   "scripts": {
     "rollup": "rollup -c && babel index.js --out-file index.js",
     "minify": "minify index.js -d minified",
-    "rename_min": "mv minified/index.js minified/reduxreduce.js",
-    "copy_babel_output": "cp index.js reduxreduce.js",
-    "copy_minified": "mv minified/reduxreduce.js reduxreduce.min.js",
+    "rename_min": "mv minified/index.js minified/reduxredup.js",
+    "copy_babel_output": "cp index.js reduxredup.js",
+    "copy_minified": "mv minified/reduxredup.js reduxredup.min.js",
     "build":
       "npm run rollup && npm run minify && npm run rename_min && npm run copy_babel_output && npm run copy_minified",
     "clean":
-      "rm -rf minified && rm reduxreduce.js && rm reduxreduce.min.js && rm index.js",
+      "rm -rf minified && rm reduxredup.js && rm reduxredup.min.js && rm index.js",
     "test": "mocha"
   },
   "keywords": [
@@ -21,7 +21,7 @@
     "utility",
     "library",
     "reducer",
-    "reduxreducer",
+    "reduxredupr",
     "composition",
     "react",
     "store",
@@ -29,10 +29,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/outofthisworld/Reduxreduce"
+    "url": "https://github.com/outofthisworld/reduxredup"
   },
   "bugs": {
-    "url": "https://github.com/outofthisworld/Reduxreduce/issues"
+    "url": "https://github.com/outofthisworld/reduxredup/issues"
   },
   "author": "outofthisworld",
   "license": "ISC",

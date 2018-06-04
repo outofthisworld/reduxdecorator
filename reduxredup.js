@@ -31,7 +31,7 @@ function _toConsumableArray(arr) {
     ? factory(exports)
     : typeof define === "function" && define.amd
       ? define(["exports"], factory)
-      : factory((global.reduxreduce = {}));
+      : factory((global.reduxredup = {}));
 })(undefined, function(exports) {
   "use strict";
 
@@ -66,7 +66,7 @@ function _toConsumableArray(arr) {
       }
       return state;
     };
-    simple_reducer_ret.reduxreduce_key = key;
+    simple_reducer_ret.reduxredup_key = key;
     return simple_reducer_ret;
   };
 
@@ -125,7 +125,7 @@ function _toConsumableArray(arr) {
         var ind = index(state, action);
 
         if (!Number.isInteger(ind) || ind < 0 || ind >= copy.length) {
-          throw new Error("reduxreduce error: invalid index returned");
+          throw new Error("reduxreduperror: invalid index returned");
         }
         copy.splice(ind, 1);
         return copy;
@@ -138,12 +138,12 @@ function _toConsumableArray(arr) {
       return simple_reducer(key, function(state, action) {
         var newArr = obj(state, action);
         if (!Array.isArray(newArr)) {
-          throw new Error("reduxreduce error: array_set must return an array");
+          throw new Error("reduxredup error: array_set must return an array");
         }
         //The user modified the original array state
         if (newArr === state) {
           throw new Error(
-            "reduxreduce error: original array was returned from array_set, please make sure you copy the state."
+            "reduxredup error: original array was returned from array_set, please make sure you copy the state."
           );
         }
         return newArr;
@@ -234,9 +234,9 @@ function _toConsumableArray(arr) {
         return function(prev, cur) {
           if (typeof cur === "function") {
             //Lazy load items into cache
-            if (cur.reduxreduce_key && optionsCopy.useCache) {
-              cur.reduxreduce_property = [].concat(_toConsumableArray(nested));
-              cache[cur.reduxreduce_key] = cur;
+            if (cur.reduxredup_key && optionsCopy.useCache) {
+              cur.reduxredup_property = [].concat(_toConsumableArray(nested));
+              cache[cur.reduxredup_key] = cur;
             }
             return cur(prev, action);
           } else {
@@ -248,15 +248,15 @@ function _toConsumableArray(arr) {
       if (
         cacheHasKey(action.type) &&
         typeof cache[action.type] === "function" &&
-        "reduxreduce_property" in cache[action.type] &&
+        "reduxredup_property" in cache[action.type] &&
         optionsCopy.useCache
       ) {
         var reducer = cache[action.type];
-        if (!("reduxreduce_property" in reducer)) {
-          throw new Error("Missing reduxreduce_property");
+        if (!("reduxredup_property" in reducer)) {
+          throw new Error("Missing reduxredup_property");
         }
 
-        var properties = reducer.reduxreduce_property;
+        var properties = reducer.reduxredup_property;
         var last = properties[properties.length - 1];
         var nextToLast = properties[properties.length - 2];
 
