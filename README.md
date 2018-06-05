@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/outofthisworld/reduxdecorator.svg?branch=master)](https://travis-ci.org/outofthisworld/reduxdecorator)
 [![Coverage Status](https://coveralls.io/repos/github/outofthisworld/reduxdecorator/badge.svg?branch=master)](https://coveralls.io/github/outofthisworld/reduxdecorator?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/outofthisworld/reduxdecorator.svg)](https://greenkeeper.io/)
 [![codebeat badge](https://codebeat.co/badges/ee79804a-b6c8-4961-adfd-2ab4ce653b86)](https://codebeat.co/projects/github-com-outofthisworld-reduxdecorator-master)
+[![Join the chat at https://gitter.im/redux-decorator/Lobby](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/redux-decorator/Lobby)
 
 # redux-decorator
 redux-decorator is a simple utility library to make it easier for working with redux,

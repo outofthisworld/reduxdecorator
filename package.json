@@ -1,6 +1,6 @@
 {
   "name": "redux-decorator",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Utilities for working with redux",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,10 @@
     "utility",
     "library",
     "reducer",
-    "reduxdecoratorr",
+    "reduxdecorator",
+    "reduxredup",
+    "redux-decorator",
+    "decorator",
     "composition",
     "react",
     "store",
