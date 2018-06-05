@@ -34,13 +34,14 @@ describe("Array", function() {
         type: "key"
       };
 
-      const reducer = array_prepend("key", function(state, action) {
+      const reducer = array_prepend("key")(function(state, action) {
         return {
           id: 1
         };
       });
 
       const newState = reducer(state, action);
+      console.log(newState);
       assert.equal(newState.length, 1);
       assert.notEqual(newState, state);
       assert.notDeepStrictEqual(newState, state);

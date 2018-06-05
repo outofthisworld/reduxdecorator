@@ -1,4 +1,4 @@
-export { default as combine } from "./utils/combine.js";
+export { default as combine } from "./utils/combine";
 export {
   array_append,
   array_prepend,
@@ -9,10 +9,11 @@ export {
   boolean_toggle,
   number_transform,
   number_increment,
-  number_decrement
-} from "./reducers/index.js";
-export { default as simple_reducer } from "./reducers/simple_reducer";
-export { default as default_state } from "./reducers/default_state";
+  number_decrement,
+  simple_reducer,
+  default_state
+} from "./reducers/index";
+export { redup } from "./annotations/index";
 
 export function create_reducer(tree, options = {}, cache = {}, nested = []) {
   function create_reducer_ret(prevState = {}, action) {

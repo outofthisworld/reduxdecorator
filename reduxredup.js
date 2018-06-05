@@ -1,5 +1,19 @@
 "use strict";
 
+var _extends =
+  Object.assign ||
+  function(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+
 var _typeof =
   typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
     ? function(obj) {
@@ -55,8 +69,10 @@ function _toConsumableArray(arr) {
     };
   };
 
-  var simple_reducer = function simple_reducer(key, callback) {
-    var simple_reducer_ret = function simple_reducer_ret(state) {
+  var simple_reducer = function simple_reducer(key, callback, def) {
+    var simple_reducer_ret = function simple_reducer_ret() {
+      var state =
+        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : def;
       var action =
         arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -197,6 +213,49 @@ function _toConsumableArray(arr) {
     number_increment$1 = number_reducers.number_increment,
     number_decrement$1 = number_reducers.number_decrement;
 
+  function redup(objKey, actionType, initialState) {
+    return function redup_return(target, key, descriptor) {
+      var descriptorCopy = _extends({}, descriptor);
+      descriptorCopy.writable = false;
+      descriptorCopy.enumerable = false;
+
+      var nested = objKey.indexOf(".") != -1;
+
+      if (nested) {
+        var splitKey = objKey.split(".");
+
+        for (var i = 0; i < splitKey.length - 1; i++) {
+          var _key2 = splitKey[i];
+          if (!(_key2 in target)) {
+            target[_key2] = {};
+          }
+          target = target[_key2];
+        }
+
+        objKey = splitKey[splitKey.length - 1];
+      }
+
+      var reducer =
+        "initializer" in descriptor
+          ? descriptor.initializer()
+          : descriptor.value;
+      if (typeof reducer !== "function") {
+        throw new Error(
+          "redux_redup: Invalid reducer function " + reducer.toString()
+        );
+      }
+
+      if (target[objKey]) {
+        if (!Array.isArray(target[objKey])) throw new Error("Invalid target");
+        var arr = target[objKey];
+        arr[arr.length] = simple_reducer(actionType, reducer, initialState);
+      } else {
+        target[objKey] = [simple_reducer(actionType, reducer, initialState)];
+      }
+      return descriptorCopy;
+    };
+  }
+
   function create_reducer(tree) {
     var options =
       arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -303,6 +362,7 @@ function _toConsumableArray(arr) {
   exports.number_decrement = number_decrement$1;
   exports.simple_reducer = simple_reducer;
   exports.default_state = default_state;
+  exports.redup = redup;
 
   Object.defineProperty(exports, "__esModule", { value: true });
 });

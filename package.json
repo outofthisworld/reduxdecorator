@@ -1,6 +1,6 @@
 {
   "name": "reduxredup",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Utilities for working with redux",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,9 @@
       "npm run rollup && npm run minify && npm run rename_min && npm run copy_babel_output && npm run copy_minified",
     "clean":
       "rm -rf minified && rm reduxredup.js && rm reduxredup.min.js && rm index.js",
-    "test": "mocha"
+    "test": "mocha",
+    "compile_test": "babel test.js --out-file testout.js",
+    "run_test": "node test"
   },
   "keywords": [
     "redux",
@@ -40,7 +42,12 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-minify": "^0.4.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
     "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
     "istanbul": "^0.4.5",

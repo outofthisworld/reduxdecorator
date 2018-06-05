@@ -1,5 +1,5 @@
-export default (key, callback) => {
-  const simple_reducer_ret = (state, action = {}) => {
+export default (key, callback, def) => {
+  const simple_reducer_ret = (state = def, action = {}) => {
     switch (action.type) {
       case key:
         state = callback(state, action);

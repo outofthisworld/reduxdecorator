@@ -1,6 +1,7 @@
 
 [![Build Status](https://travis-ci.org/outofthisworld/reduxredup.svg?branch=master)](https://travis-ci.org/outofthisworld/reduxredup)
 [![Coverage Status](https://coveralls.io/repos/github/outofthisworld/reduxredup/badge.svg?branch=master)](https://coveralls.io/github/outofthisworld/reduxredup?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/outofthisworld/reduxredup.svg)](https://greenkeeper.io/)
+[![codebeat badge](https://codebeat.co/badges/ee79804a-b6c8-4961-adfd-2ab4ce653b86)](https://codebeat.co/projects/github-com-outofthisworld-reduxredup-master)
 
 # reduxredup
 reduxredup is a simple utility library to make it easier for working with redux,
@@ -155,7 +156,106 @@ reduxredup provides a set of functions to help creating reducers easy.
 It also provides an a function which operates on a object modeled by reducers
 making working with state alot easier.
 
-# Creating the state with reduxredup
+# Coding for the future (recommended way to use redux_redup)
+This section covers using redux_redup if you can use new ECMAScript features
+including decorators and class properties and transpile them using babel.
+If this isn't possible for you, skip this section and look below to find
+how you can use redux_redup to benefit your application.
+
+## Getting started with redux_redup and babel
+
+### Babel installation with decorators and class properties
+First things first you will need to make sure you have decorators and class properties available in your project. The easiest way to do this is with babel.
+```bash
+    npm install --save-dev babel-cli babel-preset-env
+```
+You will then need to install the plugins corresponding to decorators and class properties.
+```bash
+    npm install --save-dev babel-plugin-transform-class-properties babel-plugin-transform-decorators-legacy
+```
+Finally, create a `.babelrc` file in the root of your project folder and make sure babel knows about plugins and presets:
+```json
+{
+    "presets": ["env", "es2015", "stage-1"],
+    "plugins": ["transform-decorators-legacy", "transform-class-properties"]
+}
+```
+
+### redux_redup usage with babel
+
+#### Defining our state
+We can finally get to using redux_redup! As you saw previously, defining reducers
+can lead to brittle and hard to maintain code. Thankfully there is a better way and it gets even easier with new proposed javascript features available to us. redux_redup defines a simple decorator which enables you to define your applications state with ease.
+Heres how:
+```javascript
+    import { create_store } from 'redux';
+    import { create_reducer, redup } from 'redux_redup';
+    class State {
+        @redup("Todos", "AddTodo", [])
+        addTodo(state, action) {
+            return [...state, { id: 2 }];
+        }
+        @redup("Todos", "RemoveTodo", [])
+        removeTodo(state, action) {
+            console.log("running remove todo");
+            const copy = [...state];
+            copy.splice(action.index, 1);
+            return copy;
+        }
+    }
+    const store = createStore(create_reducer(new State()));
+    /*
+        console.log(store.getState()):
+        -> { Todos:[] }
+    */
+```
+This may look a little confusing at first, but it is actually quite simple. First we define our `State` class and within in we define functions which resemble reducers.
+Each function is then decorated with the `redup` decorator function. This function takes three arguments. The first is an object property key, which holds the state that this reducer manages. The second argument correponds to the action.type property in which this
+reducer function should be executed under. The last argument describes the initial state for the object property. We then pass a new state object to create_reducer, which transforms this object into a final reducer. Finally, we create a store from this reducer.
+
+The messages we can now dispatch to our store are the following:
+```javascript
+    store.dispatch({
+        type: "AddTodo"
+    });
+
+    store.dispatch({
+        type: "RemoveTodo"
+    });
+```
+
+As you can see, management of our reducers just got a whole lot simpler. And we can go even further. Firstly, we can define constants in our state by specifying a class property:
+```javascript
+    class State {
+        aConstant = 1
+    }
+```
+Furthermore, we can nest state objects within eachother:
+```javascript
+    class Note{
+        @redup("Notes","AddNote",[])
+        addNote(state,action){
+            //Code to add a note
+        }
+    }
+    class State{
+        aConstant = 1
+        @redup("Todos","AddTodo",[])
+        addTodo(state,action){
+            //Code to add a todo
+        }
+        note = new Note();
+    }
+    // create store...
+    //Adds a note
+    store.dispatch({
+        type:'AddNote'
+    })
+    //Log notes
+    console.log(store.getState().note.Notes)
+```
+
+# Creating the state with reduxredup (Without babel)
 reduxredup provides a set of useful set of utility methods (scroll down to see the list)
 which return reducers. The above can be modeled using reduxredup:
 ```javascript

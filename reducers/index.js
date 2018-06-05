@@ -1,11 +1,8 @@
 import * as number_reducers from "./number/index";
 import * as array_reducers from "./array/index";
 import * as boolean_reducers from "./boolean/index";
-import def_state from "./default_state";
-import simp_red from "./simple_reducer";
-
-export const default_state = def_state;
-export const simple_reducer = simp_red;
+export { default as default_state } from "./default_state";
+export { default as simple_reducer } from "./simple_reducer";
 export const {
   array_append,
   array_prepend,
