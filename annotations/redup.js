@@ -27,7 +27,7 @@ export default function redup(objKey, actionType, initialState, ...args) {
       "initializer" in descriptor ? descriptor.initializer() : descriptor.value;
     if (typeof reducer !== "function") {
       throw new Error(
-        "redux_redup: Invalid reducer function " + reducer.toString()
+        "redux-decorator: Invalid reducer function " + reducer.toString()
       );
     }
 

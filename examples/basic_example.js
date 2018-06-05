@@ -1,5 +1,5 @@
 /*
-  A messy but complete example of using reduxredup.
+  A messy but complete example of using redux-decorator.
 */
 const { createStore } = require("redux");
 const {
@@ -16,7 +16,7 @@ const {
   number_increment,
   number_decrement,
   default_state
-} = require("reduxredup"); //Same as require('reduxredup');
+} = require("redux-decorator"); //Same as require('redux-decorator');
 
 let store;
 
@@ -216,8 +216,8 @@ const testHaveReduxUtilsKey = () => {
     return [...action.todos];
   });
 
-  assert(reducer.reduxredup_key === "key");
-  assert(append_reducer.reduxredup_key === "append");
+  assert(reducer.reduxdecorator_key === "key");
+  assert(append_reducer.reduxdecorator_key === "append");
 };
 
 testAddTodo();

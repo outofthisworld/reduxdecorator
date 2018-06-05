@@ -1,8 +1,8 @@
 export default {
-  input: 'main.js',
+  input: "main.js",
   output: {
-    file: 'index.js',
-    name:'reduxredup',
-    format: 'umd'
+    file: "index.js",
+    name: "reduxdecorator",
+    format: "umd"
   }
 };

@@ -6,6 +6,6 @@ export default (key, callback, def) => {
     }
     return state;
   };
-  simple_reducer_ret.reduxredup_key = key;
+  simple_reducer_ret.reduxdecorator_key = key;
   return simple_reducer_ret;
 };

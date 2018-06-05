@@ -1,48 +1,48 @@
 
-[![Build Status](https://travis-ci.org/outofthisworld/reduxredup.svg?branch=master)](https://travis-ci.org/outofthisworld/reduxredup)
-[![Coverage Status](https://coveralls.io/repos/github/outofthisworld/reduxredup/badge.svg?branch=master)](https://coveralls.io/github/outofthisworld/reduxredup?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/outofthisworld/reduxredup.svg)](https://greenkeeper.io/)
-[![codebeat badge](https://codebeat.co/badges/ee79804a-b6c8-4961-adfd-2ab4ce653b86)](https://codebeat.co/projects/github-com-outofthisworld-reduxredup-master)
+[![Build Status](https://travis-ci.org/outofthisworld/redux-decorator.svg?branch=master)](https://travis-ci.org/outofthisworld/redux-decorator)
+[![Coverage Status](https://coveralls.io/repos/github/outofthisworld/redux-decorator/badge.svg?branch=master)](https://coveralls.io/github/outofthisworld/redux-decorator?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/outofthisworld/redux-decorator.svg)](https://greenkeeper.io/)
+[![codebeat badge](https://codebeat.co/badges/ee79804a-b6c8-4961-adfd-2ab4ce653b86)](https://codebeat.co/projects/github-com-outofthisworld-redux-decorator-master)
 
-# reduxredup
-reduxredup is a simple utility library to make it easier for working with redux,
+# redux-decorator
+redux-decorator is a simple utility library to make it easier for working with redux,
 and reduces the need to create unecessary duplicate code for trivial tasks that
 are performed on state. It is defined as a single UMD module and can be viewed
 in index.js. It has been bundled/combined with rollup and transpiled with babel to produce the final output and thus should work on the majority of browsers out there.
 
 # Contributing
-Feel free to contribute to reduxredup by issuing a pull request if you have an idea or want to write some tests. Currently aiming for 100% code coverage which shouldn't be too dificult as there is a small amount of code.
+Feel free to contribute to redux-decorator by issuing a pull request if you have an idea or want to write some tests. Currently aiming for 100% code coverage which shouldn't be too dificult as there is a small amount of code.
 
 # Size
-Minified version of reduxredup currently sits at 3.95kb which is tiny ! :)
+Minified version of redux-decorator currently sits at 3.95kb which is tiny ! :)
 
 # Installation
 ## Via npm
 ```bash
-    npm install reduxredup --save
+    npm install redux-decorator --save
 ```
 ## Browser environments
-[Minified script](https://raw.githubusercontent.com/outofthisworld/reduxredup/master/reduxredup.min.js)
-[Non-minified script](https://raw.githubusercontent.com/outofthisworld/reduxredup/master/reduxredup.js)
+[Minified script](https://raw.githubusercontent.com/outofthisworld/redux-decorator/master/redux-decorator.min.js)
+[Non-minified script](https://raw.githubusercontent.com/outofthisworld/redux-decorator/master/redux-decorator.js)
 ### CDN
-[Jsdelivr](https://cdn.jsdelivr.net/gh/outofthisworld/reduxredup@1.0.1/reduxredup.min.js)
+[Jsdelivr](https://cdn.jsdelivr.net/gh/outofthisworld/redux-decorator@1.0.1/redux-decorator.min.js)
 
 # Usage
 ## ES6
 ```javascript
-    import * as reduxredup from 'reduxredup';
-    //import { array_append } from 'reduxredup'
+    import * as redux-decorator from 'redux-decorator';
+    //import { array_append } from 'redux-decorator'
 ```
 ## Node
 ```javascript
-    const reduxredup = require('reduxredup')
-    //const { array_append } = require('reduxredup);
+    const redux-decorator = require('redux-decorator')
+    //const { array_append } = require('redux-decorator);
 ```
 ## Browser
 ```html
-    <script type="" src="https://cdn.jsdelivr.net/gh/outofthisworld/reduxredup@1.0.0/reduxredup.min.js"></script> 
+    <script type="" src="https://cdn.jsdelivr.net/gh/outofthisworld/redux-decorator@1.0.0/redux-decorator.min.js"></script> 
 ```
 
-# How does reduxredup help?
+# How does redux-decorator help?
 
 Assume we have a simple todo application, and thus have to model a todos state.
 We might end up writing a reducer that looks like this:
@@ -152,17 +152,17 @@ this code breaks.
 
 The examples above are trivial, but the highlight a key point in that reducers
 should be generic, easily usable in any circumstance for any type of data.
-reduxredup provides a set of functions to help creating reducers easy.
+redux-decorator provides a set of functions to help creating reducers easy.
 It also provides an a function which operates on a object modeled by reducers
 making working with state alot easier.
 
-# Coding for the future (recommended way to use redux_redup)
-This section covers using redux_redup if you can use new ECMAScript features
+# Coding for the future (recommended way to use redux-decorator)
+This section covers using redux-decorator if you can use new ECMAScript features
 including decorators and class properties and transpile them using babel.
 If this isn't possible for you, skip this section and look below to find
-how you can use redux_redup to benefit your application.
+how you can use redux-decorator to benefit your application.
 
-## Getting started with redux_redup and babel
+## Getting started with redux-decorator and babel
 
 ### Babel installation with decorators and class properties
 First things first you will need to make sure you have decorators and class properties available in your project. The easiest way to do this is with babel.
@@ -181,15 +181,15 @@ Finally, create a `.babelrc` file in the root of your project folder and make su
 }
 ```
 
-### redux_redup usage with babel
+### redux-decorator usage with babel
 
 #### Defining our state
-We can finally get to using redux_redup! As you saw previously, defining reducers
-can lead to brittle and hard to maintain code. Thankfully there is a better way and it gets even easier with new proposed javascript features available to us. redux_redup defines a simple decorator which enables you to define your applications state with ease.
+We can finally get to using redux-decorator! As you saw previously, defining reducers
+can lead to brittle and hard to maintain code. Thankfully there is a better way and it gets even easier with new proposed javascript features available to us. redux-decorator defines a simple decorator which enables you to define your applications state with ease.
 Heres how:
 ```javascript
     import { create_store } from 'redux';
-    import { create_reducer, redup } from 'redux_redup';
+    import { create_reducer, redup } from 'redux-decorator';
     class State {
         @redup("Todos", "AddTodo", [])
         addTodo(state, action) {
@@ -255,12 +255,12 @@ Furthermore, we can nest state objects within eachother:
     console.log(store.getState().note.Notes)
 ```
 
-# Creating the state with reduxredup (Without babel)
-reduxredup provides a set of useful set of utility methods (scroll down to see the list)
-which return reducers. The above can be modeled using reduxredup:
+# Creating the state with redux-decorator (Without babel)
+redux-decorator provides a set of useful set of utility methods (scroll down to see the list)
+which return reducers. The above can be modeled using redux-decorator:
 ```javascript
     import { createStore } from 'redux';
-    import { array_append, create_reducer,default_state } from 'reduxredup';
+    import { array_append, create_reducer,default_state } from 'redux-decorator';
     const reducer_tree = {
         todos:[
             //Return the todo to be added
@@ -290,7 +290,7 @@ which return reducers. The above can be modeled using reduxredup:
 This may look a little different from what you are used to, however lets walk through the steps.
 
 - We import createStore from redux, this is what we use to create a redux store.
-- We import three functions from reduxredup array_append, create_reducer and default_state
+- We import three functions from redux-decorator array_append, create_reducer and default_state
     - All three functions return reducers! No fancy magic.
 - We define our reducer tree, a reducer tree is a simple object mapping of object   properties to arrays of reducers which perform actions on that specific property.
 It's important to realise that array_append and default_state both return reducers.
@@ -423,14 +423,14 @@ with booleans, so this is not allowed. However, glancing at the code without the
 makes this harder to spot and thus leads to more confusion down the line. If you don't like
 the names though that is easy to fix, simply import them as different names!
 ```javacript
-    import { array_append as append } from 'reduxredup';
+    import { array_append as append } from 'redux-decorator';
 ```
 ---
 
 ## Performance
-Performance of reduxredup has not been benchmarked yet. However, theoritically it should
+Performance of redux-decorator has not been benchmarked yet. However, theoritically it should
 be more effecient than a large application with lots of reducers using switch statements.
-This is because `create_reducer` returns a function which maintains a cache. Each function returned by reduxredup has a key property assigned to it, under the property `reduxredup_key` this key corresponds to the action.type. As such, if a key is found in the cache (which is lazily populated after the first store dispatch) then the reducer for that action.type/key can be invoked immediately without having to invoke every other reducer in the application.
+This is because `create_reducer` returns a function which maintains a cache. Each function returned by redux-decorator has a key property assigned to it, under the property `reduxdecorator_key` this key corresponds to the action.type. As such, if a key is found in the cache (which is lazily populated after the first store dispatch) then the reducer for that action.type/key can be invoked immediately without having to invoke every other reducer in the application.
 
 The downside to mainitaining the cache mapping is that it requires more memory, this may or may not be what you would like and would rather sacrifice CPU cycles. In that case
 you can explicity turn off use of caching when calling `create_reducer` as shown in the following example:

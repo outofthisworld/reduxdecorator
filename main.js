@@ -35,9 +35,9 @@ export function create_reducer(tree, options = {}, cache = {}, nested = []) {
     const callReducers = nested => (prev, cur) => {
       if (typeof cur === "function") {
         //Lazy load items into cache
-        if (cur.reduxredup_key && optionsCopy.useCache) {
-          cur.reduxredup_property = [...nested];
-          cache[cur.reduxredup_key] = cur;
+        if (cur.reduxdecorator_key && optionsCopy.useCache) {
+          cur.reduxdecorator_property = [...nested];
+          cache[cur.reduxdecorator_key] = cur;
         }
         return cur(prev, action);
       } else {
@@ -48,15 +48,15 @@ export function create_reducer(tree, options = {}, cache = {}, nested = []) {
     if (
       cacheHasKey(action.type) &&
       typeof cache[action.type] === "function" &&
-      "reduxredup_property" in cache[action.type] &&
+      "reduxdecorator_property" in cache[action.type] &&
       optionsCopy.useCache
     ) {
       const reducer = cache[action.type];
-      if (!("reduxredup_property" in reducer)) {
-        throw new Error("Missing reduxredup_property");
+      if (!("reduxdecorator_property" in reducer)) {
+        throw new Error("Missing reduxdecorator_property");
       }
 
-      const properties = reducer.reduxredup_property;
+      const properties = reducer.reduxdecorator_property;
       const last = properties[properties.length - 1];
       const nextToLast = properties[properties.length - 2];
 

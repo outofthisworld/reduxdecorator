@@ -45,7 +45,7 @@ function _toConsumableArray(arr) {
     ? factory(exports)
     : typeof define === "function" && define.amd
       ? define(["exports"], factory)
-      : factory((global.reduxredup = {}));
+      : factory((global.reduxdecorator = {}));
 })(undefined, function(exports) {
   "use strict";
 
@@ -82,7 +82,7 @@ function _toConsumableArray(arr) {
       }
       return state;
     };
-    simple_reducer_ret.reduxredup_key = key;
+    simple_reducer_ret.reduxdecorator_key = key;
     return simple_reducer_ret;
   };
 
@@ -141,7 +141,7 @@ function _toConsumableArray(arr) {
         var ind = index(state, action);
 
         if (!Number.isInteger(ind) || ind < 0 || ind >= copy.length) {
-          throw new Error("reduxreduperror: invalid index returned");
+          throw new Error("redux-decoratorerror: invalid index returned");
         }
         copy.splice(ind, 1);
         return copy;
@@ -154,12 +154,14 @@ function _toConsumableArray(arr) {
       return simple_reducer(key, function(state, action) {
         var newArr = obj(state, action);
         if (!Array.isArray(newArr)) {
-          throw new Error("reduxredup error: array_set must return an array");
+          throw new Error(
+            "redux-decorator error: array_set must return an array"
+          );
         }
         //The user modified the original array state
         if (newArr === state) {
           throw new Error(
-            "reduxredup error: original array was returned from array_set, please make sure you copy the state."
+            "redux-decorator error: original array was returned from array_set, please make sure you copy the state."
           );
         }
         return newArr;
@@ -241,7 +243,7 @@ function _toConsumableArray(arr) {
           : descriptor.value;
       if (typeof reducer !== "function") {
         throw new Error(
-          "redux_redup: Invalid reducer function " + reducer.toString()
+          "redux-decorator: Invalid reducer function " + reducer.toString()
         );
       }
 
@@ -293,9 +295,11 @@ function _toConsumableArray(arr) {
         return function(prev, cur) {
           if (typeof cur === "function") {
             //Lazy load items into cache
-            if (cur.reduxredup_key && optionsCopy.useCache) {
-              cur.reduxredup_property = [].concat(_toConsumableArray(nested));
-              cache[cur.reduxredup_key] = cur;
+            if (cur.reduxdecorator_key && optionsCopy.useCache) {
+              cur.reduxdecorator_property = [].concat(
+                _toConsumableArray(nested)
+              );
+              cache[cur.reduxdecorator_key] = cur;
             }
             return cur(prev, action);
           } else {
@@ -307,15 +311,15 @@ function _toConsumableArray(arr) {
       if (
         cacheHasKey(action.type) &&
         typeof cache[action.type] === "function" &&
-        "reduxredup_property" in cache[action.type] &&
+        "reduxdecorator_property" in cache[action.type] &&
         optionsCopy.useCache
       ) {
         var reducer = cache[action.type];
-        if (!("reduxredup_property" in reducer)) {
-          throw new Error("Missing reduxredup_property");
+        if (!("reduxdecorator_property" in reducer)) {
+          throw new Error("Missing reduxdecorator_property");
         }
 
-        var properties = reducer.reduxredup_property;
+        var properties = reducer.reduxdecorator_property;
         var last = properties[properties.length - 1];
         var nextToLast = properties[properties.length - 2];
 
